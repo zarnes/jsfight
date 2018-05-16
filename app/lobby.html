@@ -1,0 +1,57 @@
+<head>
+    <title>JS Fight - Login</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link href="lobby.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+    <div class="row">
+        <div class="d-none d-md-block col-12 col-xl-6 bordered">
+            <p>Game zone</p>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3 bordered">
+            <p>Game chat</p>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3 bordered">
+            <button class="btn btn-primary col-12" onclick="showLadder(true)">Voir le classement</button>
+            <div v-for="player in players">
+                <p>{{player.pseudo}}</p>
+            </div>
+        </div>
+    </div>
+    <div id="ladder" class="row">
+        <button class="btn btn-danger" onclick="showLadder(false)">X</button>
+        <table class="col-12">
+            <thead>
+                <th>Classement</th>
+                <th>Connecté</th>
+                <th>Pseudo</th>
+                <th>Score</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>oui</td>
+                    <td>Zarnes</td>
+                    <td>1000</td>
+                    <td>Jouer</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>non</td>
+                    <td>Senraz</td>
+                    <td>999</td>
+                    <td>Jouer</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="lobby.js"></script>
+
+</body>
