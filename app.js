@@ -4,7 +4,7 @@ let fs = require('fs');
 
 app.get('*.js', function(req, res, next) {
     console.log('loading js file : .' + req.url);
-    fs.readFile('.' + req.url.toString(), function(err, data) {
+    fs.readFile("./client/" + req.url.toString(), function(err, data) {
         if (err)
         {
             console.log(err);
@@ -21,7 +21,7 @@ app.get('*.js', function(req, res, next) {
 
 app.get('*.css', function(req, res, next) {
     console.log('loading css file : .' + req.url);
-    fs.readFile('.' + req.url.toString(), function(err, data) {
+    fs.readFile("./client/" + req.url.toString(), function(err, data) {
         if (err)
         {
             console.log(err);
@@ -38,7 +38,7 @@ app.get('*.css', function(req, res, next) {
 
 app.get('/', function(req, res){
     console.log("logging");
-    fs.readFile('./login.html', function(err, data){
+    fs.readFile('client/login.html', function(err, data){
         if (err) {
             res.writeHead(500, {'Content-Type': 'text/plain'});
             res.end('Error reading login page');
@@ -53,16 +53,16 @@ app.get('/', function(req, res){
 
 app.post('/login', function(req, res){
     // TODO add login
-})
+});
 
 app.get('/lobby', function(req, res) {
-    console.log("lobby");
     // TODO check login
 
-    fs.readFile('./lobby.html', function(err, data){
+    fs.readFile('client/lobby.html', function(err, data){
         if (err) {
-            res.writeHead(500, {'Content-Type': 'text/plain'});
-            res.end('Error reading login page');
+            console.log(err);
+            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.end('Error reading lobby page');
         }
         else
         {
