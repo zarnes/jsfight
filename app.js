@@ -1,6 +1,9 @@
 let app = require('express')();
 let http = require('http').Server(app);
 let fs = require('fs');
+let fightGame = require("./server/fightgame").data;
+
+fightGame.init(http);
 
 app.get('*.js', function(req, res, next) {
     console.log('loading js file : .' + req.url);

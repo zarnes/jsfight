@@ -14,11 +14,28 @@ var JsFightGame = function(canvas) {
         pixelY = canvasHeight / maxCoordY;
     }
 
+    function startFight()
+    {
+        socket = io.connect("http://localhost");
+        var id = prompt("Entrez votre id");
+        socket.on('connectiob', function(message) {
+            console.log('Connected to server with socket');
+            socket.emit('tryStartFight', {
+                fightId: 1,
+                playerId: id,
+                token: 111
+            });
+        })
+    }
+
+
     function proposeFight(name)
     {
         // TODO
         console.log("lfg");
         gamestate = "lfg";
+
+        startFight();
     }
 
     function clickHandle(event)
@@ -32,52 +49,6 @@ var JsFightGame = function(canvas) {
             if (clickX > 350 && clickX < 650 && clickY > 250 && clickY < 350)
                 proposeFight("");
         }
-    }
-
-    function writeLifes()
-    {
-        ctx.beginPath();
-        ctx.moveTo(10 * pixelX, 10 *pixelY);
-        ctx.lineTo(490 * pixelX, 10 * pixelY);
-        ctx.lineTo(490 * pixelX, 60 * pixelY);
-        ctx.lineTo(10 * pixelX, 60 * pixelY);
-        ctx.lineTo(10 * pixelX, 10 * pixelY);
-        ctx.stroke();
-        ctx.closePath();
-
-        ctx.beginPath();
-        ctx.moveTo(510 * pixelX, 10 *pixelY);
-        ctx.lineTo(990 * pixelX, 10 * pixelY);
-        ctx.lineTo(990 * pixelX, 60 * pixelY);
-        ctx.lineTo(510 * pixelX, 60 * pixelY);
-        ctx.lineTo(510 * pixelX, 10 * pixelY);
-        ctx.stroke();
-        ctx.closePath();
-    }
-
-    function writeMenu()
-    {
-
-    }
-
-    function canvasLoop()
-    {
-        writeLifes();
-    }
-
-    function resizeCanvas()
-    {
-        let newCanvasWidth = $('#game-zone').width();
-        if (newCanvasWidth == canvasWidth) return;
-
-        canvasWidth = newCanvasWidth;
-        canvasHeight = canvasWidth * 0.6;
-
-        ctx.canvas.width = canvasWidth;
-        ctx.canvas.height = canvasHeight;
-
-        pixelX = canvasWidth / maxCoordX;
-        pixelY = canvasHeight / maxCoordY;
     }
 
     function writeLifes()
@@ -160,6 +131,8 @@ var JsFightGame = function(canvas) {
     var gamestate = "lobby";
     var tick = 0;
     var secondsSinceStart = 0;
+
+    var socket;
 
     resizeCanvas();
     setInterval(function(){ resizeCanvas(); }, 300);
