@@ -1,13 +1,40 @@
 let app = require('express')();
 let http = require('http').Server(app);
 let fs = require('fs');
+let mongoServer = require('mongodb');
 let fightGame = require("./server/fightgame").data;
 
-fightGame.init(http);
+let mongo = {
+    server: mongoServer,
+    client: mongoServer.MongoClient,
+    url: "mongodb://localhost:27017/",
+    db: {},
+    objectId: mongoServer.ObjectId,
+};
 
-app.get('*.js', function(req, res, next) {
-    console.log('loading js file : .' + req.url);
-    fs.readFile("./client/" + req.url.toString(), function(err, data) {
+mongo.client.connect(mongo.url, function(err, db) {
+    if (err) mongo.db.jsFight = false;
+    else mongo.db.jsFight = db.db('JsFight');
+
+    fightGame.init(http, mongo);
+    /*mongo.db.jsFight.collection('User').find().toArray(function(err, result) {
+        console.log(result);
+    });*/
+    mongo.db.jsFight.collection('User').findOne({
+        _id: mongo.objectId('5b02dcd58898a535ec9705ab'),
+    }, function(err, result){
+        console.log(result);
+    });
+});
+
+app.get('*.js', function(req, res) {
+    //console.log('loading js file : .' + req.url);
+    var url = req.url;
+
+    if (url === '/fight.js') url = './shared/' + url;
+    else url = './client/' + url;
+
+    fs.readFile(url.toString(), function(err, data) {
         if (err)
         {
             console.log(err);
@@ -22,8 +49,8 @@ app.get('*.js', function(req, res, next) {
     })
 });
 
-app.get('*.css', function(req, res, next) {
-    console.log('loading css file : .' + req.url);
+app.get('*.css', function(req, res) {
+    //console.log('loading css file : .' + req.url);
     fs.readFile("./client/" + req.url.toString(), function(err, data) {
         if (err)
         {
@@ -76,3 +103,5 @@ app.get('/lobby', function(req, res) {
 });
 
 http.listen(80);
+
+
