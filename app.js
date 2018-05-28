@@ -23,14 +23,11 @@ mongo.client.connect(mongo.url, function(err, db) {
     }
 
     fightGame.init(http, mongo);
-    /*mongo.db.jsFight.collection('User').find().toArray(function(err, result) {
-        console.log(result);
-    });*/
-    mongo.db.jsFight.collection('User').findOne({
+    /*mongo.db.jsFight.collection('User').findOne({
         _id: mongo.objectId('5b02dcd58898a535ec9705ab'),
     }, function(err, result){
         console.log(result);
-    });
+    });*/
 });
 
 app.get('*.js', function(req, res) {
@@ -67,6 +64,23 @@ app.get('*.css', function(req, res) {
         else
         {
             res.writeHead(200, {'Content-Type': 'text/css'});
+            res.end(data);
+        }
+    });
+});
+
+app.get('*.png', function(req, res) {
+    //console.log('loading css file : .' + req.url);
+    fs.readFile("./client/" + req.url.toString(), function(err, data) {
+        if (err)
+        {
+            console.log(err);
+            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.end('Error reading file');
+        }
+        else
+        {
+            res.writeHead(200, {'Content-Type': 'image/png'});
             res.end(data);
         }
     });

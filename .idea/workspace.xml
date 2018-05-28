@@ -4,8 +4,13 @@
     <list default="true" id="4d975f45-2c0b-475f-a59c-02c5a979d384" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/css/lobby.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/css/lobby.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/fightgame.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/fightgame.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/lobby.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/lobby.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/lobby.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/lobby.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/fightgame.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/fightgame.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/fight.js" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,50 +23,17 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.11796982">
+    <splitter split-orientation="horizontal" split-proportion="0.5147754">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="lobby.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/client/lobby.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1037">
-                  <caret line="61" column="24" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="lobby.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/client/lobby.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="425">
-                  <caret line="25" column="39" selection-start-line="25" selection-start-column="39" selection-end-line="25" selection-end-column="39" />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="fightgame.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/client/fightgame.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-2570">
-                  <caret line="82" column="46" lean-forward="true" selection-start-line="82" selection-start-column="46" selection-end-line="82" selection-end-column="46" />
+                <state relative-caret-position="207">
+                  <caret line="56" column="35" selection-start-line="56" selection-start-column="35" selection-end-line="56" selection-end-column="35" />
                   <folding>
-                    <element signature="e#554#988#0" />
-                    <element signature="e#7529#7827#0" />
-                    <element signature="e#7865#9233#0" />
-                    <element signature="e#9273#10570#0" />
-                    <element signature="e#10609#11189#0" />
-                    <element signature="e#11227#11790#0" />
-                    <element signature="e#11828#12028#0" />
+                    <element signature="e#75#508#0" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="fight.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/shared/fight.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="119">
-                  <caret line="7" column="10" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="7" selection-end-column="10" />
                 </state>
               </provider>
             </entry>
@@ -73,8 +45,8 @@
           <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="206">
-                  <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
+                <state relative-caret-position="493">
+                  <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
                 </state>
               </provider>
             </entry>
@@ -82,22 +54,11 @@
           <file leaf-file-name="fightgame.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/server/fightgame.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="218">
-                  <caret line="87" column="67" selection-start-line="87" selection-start-column="67" selection-end-line="87" selection-end-column="67" />
+                <state relative-caret-position="423">
+                  <caret line="100" column="50" selection-start-line="100" selection-start-column="50" selection-end-line="100" selection-end-column="50" />
                   <folding>
                     <element signature="e#937#1609#0" />
-                    <element signature="e#5530#5863#0" />
-                    <element signature="e#5913#7894#0" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="mongo_client.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/node_modules/mongodb/lib/mongo_client.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="406">
-                  <caret line="793" selection-start-line="793" selection-end-line="793" />
                 </state>
               </provider>
             </entry>
@@ -115,15 +76,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>lobby</find>
-      <find>io</find>
-      <find>enem</find>
-      <find>writede</find>
-      <find>maxCoordY</find>
-      <find>identified =</find>
-      <find>this.gamestate</find>
-      <find>.id</find>
-      <find>proposeFight</find>
       <find>writeli</find>
       <find>proposeNewFight</find>
       <find>keysCount</find>
@@ -140,11 +92,20 @@
       <find>fightUpdate</find>
       <find>fightask</find>
       <find>.identified</find>
-      <find>/lobby</find>
       <find>currentfights</find>
-      <find>fightupdate</find>
       <find>askupdate</find>
+      <find>socketConnection</find>
+      <find>nextMove</find>
+      <find>fightupdate</find>
+      <find>game.tick</find>
+      <find>/lobby</find>
       <find>feedback =</find>
+      <find>ctx.fillStyle</find>
+      <find>state =</find>
+      <find>game.framerate *</find>
+      <find>.me =</find>
+      <find>socket</find>
+      <find>socketconne</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -155,13 +116,15 @@
       <list>
         <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/client/jsfightgame.js" />
-        <option value="$PROJECT_DIR$/client/lobby.html" />
         <option value="$PROJECT_DIR$/shared/fightController.js" />
         <option value="$PROJECT_DIR$/shared/fight.js" />
-        <option value="$PROJECT_DIR$/client/lobby.js" />
+        <option value="$PROJECT_DIR$/client/login.html" />
+        <option value="$PROJECT_DIR$/client/css/lobby.css" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/client/fightgame.js" />
+        <option value="$PROJECT_DIR$/client/lobby.html" />
         <option value="$PROJECT_DIR$/server/fightgame.js" />
+        <option value="$PROJECT_DIR$/client/lobby.js" />
+        <option value="$PROJECT_DIR$/client/fightgame.js" />
       </list>
     </option>
   </component>
@@ -176,7 +139,7 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-7" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
@@ -202,17 +165,24 @@
               <item name="jsfight" type="b2602c69:ProjectViewProjectNode" />
               <item name="jsfight" type="462c0819:PsiDirectoryNode" />
               <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jsfight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jsfight" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jsfight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jsfight" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jsfight" type="b2602c69:ProjectViewProjectNode" />
               <item name="jsfight" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jsfight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jsfight" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -266,34 +236,35 @@
       <workItem from="1526912239225" duration="1230000" />
       <workItem from="1526913507759" duration="34440000" />
       <workItem from="1527071660064" duration="19886000" />
-      <workItem from="1527491695152" duration="2179000" />
+      <workItem from="1527491695152" duration="24850000" />
+      <workItem from="1527528041427" duration="893000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64241000" />
+    <option name="totallyTimeSpent" value="87805000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="974" height="1047" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23068893" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11510417" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32081544" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.31455898" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Mongo Explorer" order="3" visible="true" weight="0.007306889" />
+      <window_info anchor="right" id="Mongo Explorer" order="3" visible="true" weight="0.0036458333" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32939914" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.4892704" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.48390558" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
     </layout>
@@ -306,75 +277,110 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="50" />
+      <option name="time" value="62" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="NodeJSConfigurationType">
         <watch expression="fight.leftPlayer.x + 100 &gt; fight.rightPlayer.x - 30" language="JavaScript" />
-        <watch expression="fight.leftPlayer.y - 130 &lt; fight.rightPlayer.y - 200" language="JavaScript" />
-        <watch expression="fight.leftPlayer.y - 170 &gt; fight.rightPlayer.y" language="JavaScript" />
-        <watch expression="fight.leftPlayer.x" language="JavaScript" />
-        <watch expression="thisPlayer.x + movement" language="JavaScript" />
-        <watch expression="fight[tPlayer].x" language="JavaScript" />
+        <watch expression="fight.rightPlayer.y - 170 &gt; fight.leftPlayer.y - 200" language="JavaScript" />
+        <watch expression="fight.rightPlayer.y - 130 &lt; fight.leftPlayer.y" language="JavaScript" />
+        <watch expression="fight[tPlayer].y - 130" language="JavaScript" />
+        <watch expression="fight[tPlayer].y - 170" language="JavaScript" />
+        <watch expression="fight.leftPlayer.y - 200" language="JavaScript" />
         <watch expression="thisPlayer.x" language="JavaScript" />
+        <watch expression="fight.rightPlayer.x - 100 &lt; fight.leftPlayer.x + 30" language="JavaScript" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
       <expression>
-        <expression-string>thisPlayer.x</expression-string>
+        <expression-string>fight.rightPlayer.x - 100 &lt; fight.leftPlayer.x + 30</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>fight[tPlayer].x</expression-string>
+        <expression-string>fight.rightPlayer.y - 130 &lt; fight.leftPlayer.y</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>fight[tPlayer]</expression-string>
+        <expression-string>fight.rightPlayer.y - 170 &gt; fight.leftPlayer.y - 200</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>fight[thisPlayer]</expression-string>
+        <expression-string>fight[tPlayer].y - 170</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>thisPlayer.x + movement</expression-string>
+        <expression-string>fight[tPlayer].y - 130</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>this.currentTarget</expression-string>
+        <expression-string>fight[tPlayer].y - 270</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>defaultStatus</expression-string>
+        <expression-string>fight[tPlayer].y</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>fight.leftPlayer.x</expression-string>
+        <expression-string>fight.leftPlayer.y - 200</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>fight.leftPlayer.y - 170 &gt; fight.rightPlayer.y</expression-string>
+        <expression-string>fight.rightPlayer.y - 270 &gt; fight.leftPlayer.y - 200</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>fight.leftPlayer.y - 130 &lt; fight.rightPlayer.y - 200</expression-string>
+        <expression-string>fight.rightPlayer.y - 230 &lt; fight.leftPlayer.y</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/client/lobby.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/fightgame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5967">
+          <caret line="351" column="30" lean-forward="true" selection-start-line="351" selection-start-column="30" selection-end-line="351" selection-end-column="30" />
+          <folding>
+            <element signature="e#75#508#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="9" lean-forward="true" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/fightgame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1445">
+          <caret line="100" column="50" selection-start-line="100" selection-start-column="50" selection-end-line="100" selection-end-column="50" />
+          <folding>
+            <element signature="e#937#1609#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/lobby.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1037">
@@ -389,25 +395,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shared/fight.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="10" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="7" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/fight.js" />
     <entry file="file://$PROJECT_DIR$/client/fightgame.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1343">
           <caret line="79" column="54" lean-forward="true" selection-start-line="79" selection-start-column="54" selection-end-line="79" selection-end-column="54" />
           <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
+            <element signature="e#75#508#0" />
           </folding>
         </state>
       </provider>
@@ -425,8 +419,6 @@
           <caret line="82" column="30" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
           <folding>
             <element signature="e#937#1609#0" />
-            <element signature="e#5530#5863#0" />
-            <element signature="e#5913#7894#0" />
           </folding>
         </state>
       </provider>
@@ -445,25 +437,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shared/fight.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="10" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="7" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/fight.js" />
     <entry file="file://$PROJECT_DIR$/client/fightgame.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2278">
           <caret line="134" column="20" lean-forward="true" selection-start-line="134" selection-start-column="20" selection-end-line="134" selection-end-column="20" />
           <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
+            <element signature="e#75#508#0" />
           </folding>
         </state>
       </provider>
@@ -481,8 +461,6 @@
           <caret line="91" column="54" lean-forward="true" selection-start-line="91" selection-start-column="54" selection-end-line="91" selection-end-column="54" />
           <folding>
             <element signature="e#937#1609#0" />
-            <element signature="e#5530#5863#0" />
-            <element signature="e#5913#7894#0" />
           </folding>
         </state>
       </provider>
@@ -493,8 +471,6 @@
           <caret line="60" column="16" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
           <folding>
             <element signature="e#937#1609#0" />
-            <element signature="e#5530#5863#0" />
-            <element signature="e#5913#7894#0" />
           </folding>
         </state>
       </provider>
@@ -518,13 +494,7 @@
         <state relative-caret-position="425">
           <caret line="25" column="26" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
           <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
+            <element signature="e#75#508#0" />
           </folding>
         </state>
       </provider>
@@ -541,13 +511,7 @@
         <state relative-caret-position="425">
           <caret line="25" column="26" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
           <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
+            <element signature="e#75#508#0" />
           </folding>
         </state>
       </provider>
@@ -574,31 +538,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/lobby.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="39" selection-start-line="25" selection-start-column="39" selection-end-line="25" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/lobby.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1037">
-          <caret line="61" column="24" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/mongodb/lib/utils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
           <caret line="414" column="13" selection-start-line="414" selection-start-column="13" selection-end-line="414" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shared/fight.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="10" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="7" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -609,37 +552,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/client/css/lobby.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
+        <state relative-caret-position="408">
+          <caret line="24" column="17" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/fightgame.js">
+    <entry file="file://$PROJECT_DIR$/client/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2570">
-          <caret line="82" column="46" lean-forward="true" selection-start-line="82" selection-start-column="46" selection-end-line="82" selection-end-column="46" />
-          <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
-          </folding>
+        <state relative-caret-position="51">
+          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shared/fight.js" />
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/lobby.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="51" column="12" lean-forward="true" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/fightgame.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="87" column="67" selection-start-line="87" selection-start-column="67" selection-end-line="87" selection-end-column="67" />
+        <state relative-caret-position="423">
+          <caret line="100" column="50" selection-start-line="100" selection-start-column="50" selection-end-line="100" selection-end-column="50" />
           <folding>
             <element signature="e#937#1609#0" />
-            <element signature="e#5530#5863#0" />
-            <element signature="e#5913#7894#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/lobby.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="668">
+          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+          <folding>
+            <element signature="e#1522#1705#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/fightgame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="56" column="35" selection-start-line="56" selection-start-column="35" selection-end-line="56" selection-end-column="35" />
+          <folding>
+            <element signature="e#75#508#0" />
           </folding>
         </state>
       </provider>

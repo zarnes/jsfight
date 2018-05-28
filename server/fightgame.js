@@ -64,50 +64,30 @@ game.init = function(server, mongo) {
                 oPlayer = 'leftPlayer';
             }
 
-            /*if (fight.rightPlayer.id === client.identity.id) {
-                thisPlayer = fight.rightPlayer;
-                otherPlayer = fight.leftPlayer;
-            }
-            else {
-                thisPlayer = fight.leftPlayer;
-                otherPlayer = fight.rightPlayer;
-            }*/
-
             var feedback = {};
 
             if (action.action === 'attack') {
                 let power = 10;
-                if (action.player === 'left') {
-                    if (
-                        // TODO x coords bugged
-                        fight.leftPlayer.x + 100 > fight.rightPlayer.x - 30 &&
-                        fight.leftPlayer.y - 130 < fight.rightPlayer.y - 200 &&
-                        fight.leftPlayer.y - 170 > fight.rightPlayer.y
-                        /*fight[tPlayer].x + 100 > fight[oPlayer].x - 30 &&
-                        fight[tPlayer].y - 130 < fight[oPlayer].y - 200 &&
-                        fight[tPlayer].y - 170 > fight[oPlayer].y*/
-                    ) {
-                        otherPlayer.life -= power;
-                        feedback.rightPlayerLife = power;
-                        // left attack right
-                    }
-                }
-                if (action.player === 'right') {
-                    if (
-                        fight.rightPlayer.x - 100 < fight.leftPlayer.x + 30 &&
-                        fight.rightPlayer.y - 130 < fight.leftPlayer.y - 200 &&
-                        fight.rightPlayer.y - 170 > fight.leftPlayer.y
-                    ) {
-                        otherPlayer.life -= power;
-                        feedback.leftPlayerLife = power;
-                        // right attack left
-                    }
-                }
-                /*let power = 10;
-                otherPlayer.life -= power;
+                var xValid;
+                if (action.player === 'left')
+                    xValid = fight[tPlayer].x + 100 > fight[oPlayer].x - 30;
+                else
+                    xValid = fight[tPlayer].x - 100 < fight[oPlayer].x + 30;
 
-                if (action.player === 'left') feedback.rightPlayerLife = power;
-                else feedback.leftPlayerLife = power;*/
+                /*let xValid = (action.player === 'left' ?
+                    fight[tPlayer].x + 100 > fight[oPlayer].x - 30 :
+                    fight[tPlayer].x - 100 < fight[oPlayer].x + 30);*/
+
+                if (
+                    xValid &&
+                    fight[tPlayer].y - 170 > fight[oPlayer].y - 200 &&
+                    fight[tPlayer].y - 130 < fight[oPlayer].y
+                ) {
+                    fight[oPlayer].life -= power;
+                    feedback[oPlayer + 'Life'] = power;
+                }
+                feedback[tPlayer + 'State'] = 'punch';
+                feedback[tPlayer + "NextMove"] = 0.35;
             }
             else if (action.action === 'move') {
                 let movement = 2 * action.direction;
@@ -116,10 +96,14 @@ game.init = function(server, mongo) {
                 if (action.player === 'left') feedback.leftPlayerMove = movement;
                 else feedback.rightPlayerMove = movement;
             }
+            else if (action.action === 'gravity') {
+                fight[tPlayer].x += lef.velocity.x;
+                fight[tPlayer].y += lef.velocity.y;
+            }
 
             if (feedback !== {}) {
-                game.sockets[thisPlayer.id].emit('fightUpdate', feedback);
-                game.sockets[otherPlayer.id].emit('fightUpdate', feedback);
+                game.sockets[fight[tPlayer].id].emit('fightUpdate', feedback);
+                game.sockets[fight[oPlayer].id].emit('fightUpdate', feedback);
             }
         });
 
@@ -148,8 +132,41 @@ game.init = function(server, mongo) {
                 socket.emit('fightUpdate', feedback);
             }
         });
+
+        socket.on('fightGravityMove', function(data){
+
+        })
     });
 };
+
+function oldAttack() {
+    if (action.player === 'left') {
+        if (
+            // TODO x coords bugged
+            fight.leftPlayer.x + 100 > fight.rightPlayer.x - 30 &&
+            fight.rightPlayer.y - 170 > fight.leftPlayer.y - 200 &&
+            fight.rightPlayer.y - 130 < fight.leftPlayer.y
+        /*fight[tPlayer].x + 100 > fight[oPlayer].x - 30 &&
+        fight[tPlayer].y - 130 < fight[oPlayer].y - 200 &&
+        fight[tPlayer].y - 170 > fight[oPlayer].y*/
+        ) {
+            otherPlayer.life -= power;
+            feedback.rightPlayerLife = power;
+            // left attack right
+        }
+    }
+    if (action.player === 'right') {
+        if (
+            fight.rightPlayer.x - 100 < fight.leftPlayer.x + 30 &&
+            fight.rightPlayer.y - 170 > fight.leftPlayer.y - 200 &&
+            fight.rightPlayer.y - 130 < fight.leftPlayer.y
+        ) {
+            otherPlayer.life -= power;
+            feedback.leftPlayerLife = power;
+            // right attack left
+        }
+    }
+}
 
 game.checkFightTimeout = function() {
     var i = 0;
@@ -196,11 +213,15 @@ game.proposeNewFight = function(asker, target) {
             fight.leftPlayer.x = 300;
             fight.leftPlayer.y = 600;
             fight.leftPlayer.nextMove = 0;
+            fight.leftPlayer.state = 'idle';
+            fight.leftPlayer.velocity = {x: 0, y: 0};
 
             fight.rightPlayer.life = fight.rightPlayer.maxLife = 1000;
             fight.rightPlayer.x = 700;
             fight.rightPlayer.y = 600;
             fight.rightPlayer.nextMove = 0;
+            fight.rightPlayer.state = 'idle';
+            fight.rightPlayer.velocity = {x: 0, y: 0};
 
 
             this.currentfights[fight.fightId] = fight;
