@@ -13,8 +13,14 @@ let mongo = {
 };
 
 mongo.client.connect(mongo.url, function(err, db) {
-    if (err) mongo.db.jsFight = false;
-    else mongo.db.jsFight = db.db('JsFight');
+    if (err) {
+        mongo.db.jsFight = false;
+        console.log('Js Fight mongo db not initialized !');
+    }
+    else {
+        mongo.db.jsFight = db.db('JsFight');
+        console.log('Js Fight mongo db initialized');
+    }
 
     fightGame.init(http, mongo);
     /*mongo.db.jsFight.collection('User').find().toArray(function(err, result) {

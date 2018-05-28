@@ -44,6 +44,110 @@ game.init = function(server, mongo) {
                 game.proposeNewFight(client.identity, opponent)
             });
         });
+
+        socket.on('fightAction', function(action) {
+            var fight = game.currentfights[action.fightId];
+            if (!fight) {
+                console.log('Undefined fight');
+                return;
+            }
+
+            var tPlayer;
+            var oPlayer;
+
+            if (action.player === 'left') {
+                tPlayer = 'leftPlayer';
+                oPlayer = 'rightPlayer';
+            }
+            else {
+                tPlayer = 'rightPlayer';
+                oPlayer = 'leftPlayer';
+            }
+
+            /*if (fight.rightPlayer.id === client.identity.id) {
+                thisPlayer = fight.rightPlayer;
+                otherPlayer = fight.leftPlayer;
+            }
+            else {
+                thisPlayer = fight.leftPlayer;
+                otherPlayer = fight.rightPlayer;
+            }*/
+
+            var feedback = {};
+
+            if (action.action === 'attack') {
+                let power = 10;
+                if (action.player === 'left') {
+                    if (
+                        // TODO x coords bugged
+                        fight.leftPlayer.x + 100 > fight.rightPlayer.x - 30 &&
+                        fight.leftPlayer.y - 130 < fight.rightPlayer.y - 200 &&
+                        fight.leftPlayer.y - 170 > fight.rightPlayer.y
+                        /*fight[tPlayer].x + 100 > fight[oPlayer].x - 30 &&
+                        fight[tPlayer].y - 130 < fight[oPlayer].y - 200 &&
+                        fight[tPlayer].y - 170 > fight[oPlayer].y*/
+                    ) {
+                        otherPlayer.life -= power;
+                        feedback.rightPlayerLife = power;
+                        // left attack right
+                    }
+                }
+                if (action.player === 'right') {
+                    if (
+                        fight.rightPlayer.x - 100 < fight.leftPlayer.x + 30 &&
+                        fight.rightPlayer.y - 130 < fight.leftPlayer.y - 200 &&
+                        fight.rightPlayer.y - 170 > fight.leftPlayer.y
+                    ) {
+                        otherPlayer.life -= power;
+                        feedback.leftPlayerLife = power;
+                        // right attack left
+                    }
+                }
+                /*let power = 10;
+                otherPlayer.life -= power;
+
+                if (action.player === 'left') feedback.rightPlayerLife = power;
+                else feedback.leftPlayerLife = power;*/
+            }
+            else if (action.action === 'move') {
+                let movement = 2 * action.direction;
+                //thisPlayer.x =+ movement;
+                fight[tPlayer].x += movement;
+                if (action.player === 'left') feedback.leftPlayerMove = movement;
+                else feedback.rightPlayerMove = movement;
+            }
+
+            if (feedback !== {}) {
+                game.sockets[thisPlayer.id].emit('fightUpdate', feedback);
+                game.sockets[otherPlayer.id].emit('fightUpdate', feedback);
+            }
+        });
+
+        socket.on('fightAskUpdate', function(fightId) {
+            if (!client.identified) {
+                console.log('An unidentified socket want to update a fight');
+                socket.disconnect();
+            }
+            else if (!game.currentfights[fightId]) {
+                console.log('Client ' + client.identity.pseudo + " ask for unknown fight " + fightId);
+            }
+            else if (
+                game.currentfights[fightId].leftPlayer.id !== client.identity.id &&
+                game.currentfights[fightId].rightPlayer.id !== client.identity.id
+            ) {
+                console.log('Client (' + client.identity.pseudo + ') don\'t belong in fight '
+                    + game.currentfights[fightId].fightId + ' ('
+                    + game.currentfights[fightId].leftPlayer.pseudo + ' vs '
+                    + game.currentfights[fightId].rightPlayer.pseudo + ')');
+            }
+            else
+            {
+                let feedback = {
+                    fight: game.currentfights[fightId]
+                };
+                socket.emit('fightUpdate', feedback);
+            }
+        });
     });
 };
 
@@ -87,8 +191,18 @@ game.proposeNewFight = function(asker, target) {
                 fightId: this.proposedFights[i].fightId,
                 timeStamp: this.proposedFights[i].timeStamp,
             };
+
             fight.leftPlayer.life = fight.leftPlayer.maxLife = 1000;
+            fight.leftPlayer.x = 300;
+            fight.leftPlayer.y = 600;
+            fight.leftPlayer.nextMove = 0;
+
             fight.rightPlayer.life = fight.rightPlayer.maxLife = 1000;
+            fight.rightPlayer.x = 700;
+            fight.rightPlayer.y = 600;
+            fight.rightPlayer.nextMove = 0;
+
+
             this.currentfights[fight.fightId] = fight;
 
             this.sockets[asker.id].emit('startFight', fight);
