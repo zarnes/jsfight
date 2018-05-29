@@ -32,6 +32,7 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('fightGiveIdentity', function(player) {
+        // TODO, juste envoyer l'id ?
         socket.player.identified = true;
         socket.player.identity = player;
         socket.emit('message', 'Vous avez été identifié en tant que ' + socket.player.identity.pseudo);
@@ -131,8 +132,8 @@ app.get('/', function(req, res){
     });
 });
 
-app.post('/login', function(req, res){
-    // TODO add login
+app.get('/login', function(req, res){
+    console.log(req.body);
 });
 
 app.get('/lobby', function(req, res) {
@@ -156,7 +157,7 @@ app.get('/vuedata', function(req, res) {
     // TODO Liste des joueurs avec mongo
     let data = {
         pseudo: 'Zarnes',
-            serverIp: '192.168.1.14',
+            serverIp: 'localhost',
             players: [
             {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
             {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
