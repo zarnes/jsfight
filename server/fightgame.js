@@ -5,31 +5,13 @@ game.proposedFights = [];
 game.currentfights = [];
 game.sockets = {};
 
-game.init = function(server, mongo) {
-    this.io = require('socket.io').listen(server);
+game.init = function(server, mongo, socketIO, sockets) {
     this.mongo = mongo;
+    this.sockets = sockets;
 
-    this.io.sockets.on('connection', function(socket) {
-        var client = {
-            identified: false
-        };
-
-        socket.emit('connection', '');
-
-        socket.on('message', function(message){
-            console.log('A client say : ' + message);
-        });
-
-        socket.on('fightGiveIdentity', function(player) {
-            client.identified = true;
-            client.identity = player;
-            socket.emit('message', 'Vous avez été identifié en tant que ' + client.identity.pseudo);
-            socket.emit('fightNotificationIdentified', '');
-            game.sockets[client.identity.id] = socket;
-        });
-
+    socketIO.sockets.on('connection', function(socket) {
         socket.on('fightChallenge', function(opponentId) {
-            if (!client.identified){
+            if (!socket.player.identified){
                 console.log('A socket unidentified client has tried to challenge opponent ' + opponentId);
                 return;
             }
@@ -37,11 +19,11 @@ game.init = function(server, mongo) {
                 '_id': mongo.objectId(opponentId)
             }, function (err, opponent) {
                 if (err){
-                    console.log('Player ' + client.identity.id + ' tried to fight an unknown player ' + opponentId + '(' + err + ')');
+                    console.log('Player ' + socket.player.identity.id + ' tried to fight an unknown player ' + opponentId + '(' + err + ')');
                     return;
                 }
                 opponent.id = opponentId;
-                game.proposeNewFight(client.identity, opponent)
+                game.proposeNewFight(socket.player.identity, opponent)
             });
         });
 
@@ -108,18 +90,18 @@ game.init = function(server, mongo) {
         });
 
         socket.on('fightAskUpdate', function(fightId) {
-            if (!client.identified) {
+            if (!socket.player.identified) {
                 console.log('An unidentified socket want to update a fight');
                 socket.disconnect();
             }
             else if (!game.currentfights[fightId]) {
-                console.log('Client ' + client.identity.pseudo + " ask for unknown fight " + fightId);
+                console.log('Client ' + socket.player.identity.pseudo + " ask for unknown fight " + fightId);
             }
             else if (
-                game.currentfights[fightId].leftPlayer.id !== client.identity.id &&
-                game.currentfights[fightId].rightPlayer.id !== client.identity.id
+                game.currentfights[fightId].leftPlayer.id !== socket.player.identity.id &&
+                game.currentfights[fightId].rightPlayer.id !== socket.player.identity.id
             ) {
-                console.log('Client (' + client.identity.pseudo + ') don\'t belong in fight '
+                console.log('Client (' + socket.player.identity.pseudo + ') don\'t belong in fight '
                     + game.currentfights[fightId].fightId + ' ('
                     + game.currentfights[fightId].leftPlayer.pseudo + ' vs '
                     + game.currentfights[fightId].rightPlayer.pseudo + ')');

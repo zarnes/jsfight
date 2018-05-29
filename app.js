@@ -3,6 +3,7 @@ let http = require('http').Server(app);
 let fs = require('fs');
 let mongoServer = require('mongodb');
 let fightGame = require("./server/fightgame").data;
+let io = require('socket.io').listen(http);
 
 let mongo = {
     server: mongoServer,
@@ -11,6 +12,33 @@ let mongo = {
     db: {},
     objectId: mongoServer.ObjectId,
 };
+var sockets = {};
+
+io.sockets.on('connection', function(socket) {
+    socket.player = {
+        identified: false
+    };
+
+    console.log('new client connected with socket');
+    socket.emit('connection', '');
+
+    socket.on('message', function(message){
+        var sender = '';
+        if (socket.player.identified)
+            sender = socket.player.identity.pseudo;
+        else
+            sender = 'An unidentified client';
+        console.log(sender + ' say : ' + message);
+    });
+
+    socket.on('fightGiveIdentity', function(player) {
+        socket.player.identified = true;
+        socket.player.identity = player;
+        socket.emit('message', 'Vous avez été identifié en tant que ' + socket.player.identity.pseudo);
+        socket.emit('fightNotificationIdentified', '');
+        sockets[socket.player.identity.id] = socket;
+    });
+});
 
 mongo.client.connect(mongo.url, function(err, db) {
     if (err) {
@@ -22,13 +50,15 @@ mongo.client.connect(mongo.url, function(err, db) {
         console.log('Js Fight mongo db initialized');
     }
 
-    fightGame.init(http, mongo);
+    fightGame.init(http, mongo, io, sockets);
     /*mongo.db.jsFight.collection('User').findOne({
         _id: mongo.objectId('5b02dcd58898a535ec9705ab'),
     }, function(err, result){
         console.log(result);
     });*/
 });
+
+
 
 app.get('*.js', function(req, res) {
     //console.log('loading js file : .' + req.url);
@@ -120,6 +150,21 @@ app.get('/lobby', function(req, res) {
             res.end(data);
         }
     })
+});
+
+app.get('/vuedata', function(req, res) {
+    // TODO Liste des joueurs avec mongo
+    let data = {
+        pseudo: 'Zarnes',
+            serverIp: '192.168.1.14',
+            players: [
+            {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
+            {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
+        ]
+    };
+    //res.writeHead(200, {'Content-Type': 'application/json'});
+    res.send(data);
+    res.end();
 });
 
 http.listen(80);

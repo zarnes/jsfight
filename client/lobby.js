@@ -27,7 +27,7 @@ $(document).ready(function(){
     var main = {};
     debug = main;
 
-    main.app = new Vue({
+    /*main.app = new Vue({
         el:"#app",
         data: {
             pseudo: 'Zarnes',
@@ -37,28 +37,44 @@ $(document).ready(function(){
                 {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
             ]
         }
-    });
+    });*/
 
-    let canvas = $('canvas')[0];
-    if (canvas)
-        main.game = new FightGame(canvas, main);
-    else
-        console.log("Game not initialized !");
+    function socketInit() {
+        main.socket = io.connect('http://' + main.app.serverIp);
+        main.socket.on('connection', function(err) {
+            socketConnection(err);
+            main.game.socket = main.socket;
+            main.game.socketInit();
+        });
+        main.socket.on('fightNotificationIdentified', function (err) {
+            if (err) {
+                console.log('Can\'t be identified : ' + err);
+                main.game.me = null;
+            }
+            else {
+                main.game.identified = true;
+            }
+        });
+        main.socket.on('message', function(message) { console.log('Message from server : ' + message); });
+    }
 
-    main.socket = io.connect('http://' + main.app.serverIp);
-    main.socket.on('connection', function(err) {
-        socketConnection(err);
-        main.game.socket = main.socket;
-        main.game.socketInit();
+    $.ajax({
+        url: "vuedata",
+        method: 'GET'
+    }).done(function(data) {
+        console.log('vue data fetched');
+        console.log(data);
+        main.app = new Vue({
+            el:"#app",
+            data: data
+        });
+
+        socketInit();
+
+        let canvas = $('canvas')[0];
+        if (canvas)
+            main.game = new FightGame(canvas, main);
+        else
+            console.log("Game not initialized !");
     });
-    main.socket.on('fightNotificationIdentified', function (err) {
-        if (err) {
-            console.log('Can\'t be identified : ' + err);
-            main.game.me = null;
-        }
-        else {
-            main.game.identified = true;
-        }
-    });
-    main.socket.on('message', function(message) { console.log('Message from server : ' + message); });
 });
