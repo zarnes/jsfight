@@ -2,7 +2,9 @@ let app = require('express')();
 let http = require('http').Server(app);
 let fs = require('fs');
 let mongoServer = require('mongodb');
+var assert = require('assert');
 let fightGame = require("./server/fightgame").data;
+
 
 let bodyParser = require('body-parser');
 
@@ -19,6 +21,9 @@ let mongo = {
     db: {},
     objectId: mongoServer.ObjectId,
 };
+
+var url = 'mongodb://localhost:27017/JsFight';
+
 var sockets = {};
 
 io.sockets.on('connection', function(socket) {
@@ -56,7 +61,7 @@ mongo.client.connect(mongo.url, function(err, db) {
     else {
         mongo.db.jsFight = db.db('JsFight');
         console.log('Js Fight mongo db initialized');
-        
+
     }
 
     fightGame.init(http, mongo, io, sockets);
@@ -141,7 +146,19 @@ app.get('/', function(req, res){
     });
 });
 
-app.post('/login', function(req, res){
+app.post('/login', function(req, res) {
+    var insert = {
+        mail: req.body.fname,
+        password: req.body.password
+    };
+    mongoServer.connect(url, function (err, mongoServer) {
+        assert.equal(null, err);
+        mongo.db.jsFight.collection('Access').insert(insert, function (err, result) {
+            assert.equal(null, err);
+            console.log('Data inserted');
+        });
+    });
+
     mongo.db.jsFight.collection('Access').findOne(
         {"mail": req.body.fname, $and: [ { "password": req.body.password }]}
         , function (err, result) {
@@ -154,63 +171,44 @@ app.post('/login', function(req, res){
             }
 
         });
-
-    /*mongo.db.jsFight.collection('Access').findOne(
-        {
-            _id: mongo.objectId.valueOf(result._id),
-        }, function (err, result) {
-            console.log(result);
-        });*/
 });
 
-app.get('/register', function(req, res){
-    fs.readFile('client/register.html', function(err, data){
+
+app.get('/register', function(req, res, next){
+
+});
+
+
+app.get('/lobby', function(req, res) {
+    // TODO check login
+
+    fs.readFile('client/lobby.html', function (err, data) {
         if (err) {
-            res.writeHead(500, {'Content-Type': 'text/plain'});
-            res.end('Error reading login page');
+            console.log(err);
+            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.end('Error reading lobby page');
         }
-        else
-        {
+        else {
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(data);
         }
     });
 });
 
-app.get('/lobby', function(req, res) {
-    // TODO check login
-
-    fs.readFile('client/lobby.html', function(err, data){
-        if (err) {
-            console.log(err);
-            res.writeHead(404, {'Content-Type': 'text/plain'});
-            res.end('Error reading lobby page');
-        }
-        else
-        {
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.end(data);
-        }
-    })
-});
-
-app.get('/vuedata', function(req, res) {
-    // TODO Liste des joueurs avec mongo
-    let data = {
-        pseudo: 'Zarnes',
-        serverIp: 'localhost',
-        players: [
-            {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
-            {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
-        ]
-    };
-    //res.writeHead(200, {'Content-Type': 'application/json'});
-    res.send(data);
-    res.end();
-});
+    app.get('/vuedata', function (req, res) {
+        // TODO Liste des joueurs avec mongo
+        let data = {
+            pseudo: 'Zarnes',
+            serverIp: 'localhost:8080',
+            players: [
+                {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
+                {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
+            ]
+        };
+        //res.writeHead(200, {'Content-Type': 'application/json'});
+        res.send(data);
+        res.end();
+    });
 
 
-http.listen(80);
-
-
-
+http.listen(8080);
