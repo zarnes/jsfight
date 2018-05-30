@@ -33,6 +33,7 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('fightGiveIdentity', function(player) {
+        // TODO, juste envoyer l'id ?
         socket.player.identified = true;
         socket.player.identity = player;
         socket.emit('message', 'Vous avez été identifié en tant que ' + socket.player.identity.pseudo);
@@ -134,8 +135,8 @@ app.get('/', function(req, res){
     });
 });
 
-app.post('/login', function(req, res){
-    // TODO add login
+app.get('/login', function(req, res){
+    console.log(req.body);
 });
 
 app.get('/lobby', function(req, res) {

@@ -22,22 +22,6 @@ function FightGame(canvas, main) {
         return images;
     };
 
-    this.socketConnection = function (err) {
-        if (err) {
-            console.log("Error from connection : " + err);
-            return;
-        }
-        console.log('Connected with socket to server');
-        let index = prompt("Index de votre pseudo", '0');
-        if (!index) return;
-
-        let identity = this.mainContext.app.players[index];
-        if (!identity) return;
-
-        this.me = identity;
-        this.socket.emit('fightGiveIdentity', identity)
-    };
-
     this.startFight = function(fight)
     {
         this.tick = 0;
@@ -148,9 +132,11 @@ function FightGame(canvas, main) {
                 if (interval === null) {
                     interval = setInterval(function () {
                         var action = {
+                            action: '',
                             fightId: game.fight.fightId,
                             player: (game.fight.leftPlayer.id === game.me.id ? 'left' : 'right')
                         };
+
                         if (pressedKeys[65] && game.me.nextMove < game.tick) {
                             game.me.state = 'punch';
                             game.me.nextMove = game.tick + game.framerate * 0.35;
@@ -163,7 +149,7 @@ function FightGame(canvas, main) {
                         if (pressedKeys[39] && game.me.state === 'idle') ++movement;
                         if (movement !== 0) {
                             let distance = Math.abs(game.me.x + movement - game.other.x);
-                            if (distance > 70) {
+                            if (distance > 70 && game.me.x + movement > 0 && game.me.x + movement < 1000) {
                                 action.action = 'move';
                                 action.direction = movement;
                                 game.socket.emit('fightAction', action);
@@ -171,9 +157,10 @@ function FightGame(canvas, main) {
                         }
 
                         if (pressedKeys[38] && game.me.y === 600) {
-                            console.log('jump');
                             game.me.velocity = {x: movement, y: 2};
                             game.me.y -= 1;
+                            action.action = 'jump';
+                            game.socket.emit('fightAction', action);
                         }
 
                     }, game.frameTime);
@@ -201,7 +188,7 @@ function FightGame(canvas, main) {
         console.log("lfg");
         this.gamestate = "lfg";
 
-        // Placeholder
+        // Placeholder TODO vrai matchmaking
         let index = prompt('Id de l\'opposant : ', '1');
         let opponent = this.mainContext.app.players[index];
         console.log('proposing fight to ' + opponent.pseudo);
@@ -327,16 +314,12 @@ function FightGame(canvas, main) {
             left.velocity = {x: 0, y: 0};
         }
         else {
-            let velo = {
-                x: left.velocity.x,
-                y: left.velocity.y,
-                yyy: left.y
-            };
-            console.log(velo);
             left.velocity.y -= (game.frameTime / 1000) * 0.5;
             game.socket.emit('fightAction', {
+                action: 'gravity',
+                fightId: game.fight.fightId,
                 player: 'left',
-                move: {x: left.velocity.x * game.frameTime, y: left.velocity.frameTime * 0.2}
+                velocity: left.velocity
             });
             left.x += left.velocity.x;
             left.y -= left.velocity.y;

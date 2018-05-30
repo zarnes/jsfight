@@ -4,6 +4,7 @@ game.proposeFightTimeout = (60 * 1000);
 game.proposedFights = [];
 game.currentfights = [];
 game.sockets = {};
+game.frameTime;
 
 
 game.init = function(server, mongo, socketIO, sockets) {
@@ -32,6 +33,11 @@ game.init = function(server, mongo, socketIO, sockets) {
             var fight = game.currentfights[action.fightId];
             if (!fight) {
                 console.log('Undefined fight');
+                return;
+            }
+
+            if (action.action === '') {
+                console.log('Undefined action from player ' + socket.player.pseudo);
                 return;
             }
 
@@ -79,9 +85,23 @@ game.init = function(server, mongo, socketIO, sockets) {
                 if (action.player === 'left') feedback.leftPlayerMove = movement;
                 else feedback.rightPlayerMove = movement;
             }
+            else if (action.action === 'jump') {
+                fight[tPlayer].velocity = action.velocity;
+                fight[tPlayer].y -= 1;
+                console.log(fight[tPlayer].y);
+            }
             else if (action.action === 'gravity') {
-                fight[tPlayer].x += lef.velocity.x;
-                fight[tPlayer].y += lef.velocity.y;
+                console.log(fight[tPlayer].y);
+                console.log(fight[tPlayer].velocity.y);
+                if (fight[tPlayer].y >= 600) {
+                    fight[tPlayer].velocity = {x: 0, y: 0};
+                }
+                else {
+                    fight[tPlayer].velocity = action.velocity;
+                    fight[tPlayer].x += fight[tPlayer].velocity.x;
+                    fight[tPlayer].y -= fight[tPlayer].velocity.y;
+
+                }
             }
 
             if (feedback !== {}) {
@@ -116,8 +136,8 @@ game.init = function(server, mongo, socketIO, sockets) {
             }
         });
 
-        socket.on('fightGravityMove', function(data){
-
+        socket.on('sendFrametime', function(frametime){
+            game.frameTime = frametime;
         })
     });
 };

@@ -61,4 +61,4 @@ typings/
 .next
 
 # jetbrains local preferences
-.idea
+.idea/
