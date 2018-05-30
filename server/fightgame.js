@@ -39,18 +39,27 @@ game.finishFight = function(fight) {
     if (loser.score < 0) loser.score = 0;
 
     game.sockets[winner.id].player.identity.score = winner.score;
+    game.sockets[winner.id].player.identity.wins = winner.wins = parseInt(winner.wins) + 1;
+    game.sockets[winner.id].player.identity.playtime = winner.playtime = parseInt(winner.playtime + time);
+
     game.sockets[loser.id].player.identity.score = loser.score;
+    game.sockets[loser.id].player.identity.loses = loser.loses = parseInt(loser.loses) + 1;
+    game.sockets[loser.id].player.identity.playtime = loser.playtime = parseInt(loser.playtime + time);
 
     game.mongo.db.jsFight.collection('User').update({
         '_id': game.mongo.objectId(winner.id)
     }, {$set: {
-            score: winner.score
+            score: winner.score,
+            wins: winner.wins,
+            playtime: winner.playtime
         }});
 
     game.mongo.db.jsFight.collection('User').update({
         '_id': game.mongo.objectId(loser.id)
     }, {$set: {
-            score: loser.score
+            score: loser.score,
+            loses: loser.loses,
+            playtime: loser.playtime
         }});
 
     let data = {
