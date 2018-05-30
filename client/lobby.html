@@ -12,6 +12,11 @@
         </div>
         <div class="col-12 col-md-6 col-xl-3 bordered">
             <p>Game chat</p>
+            <div class="conversation"></div>
+            <form id="form">
+                <input type="text" name="message">
+                <button type="submit" class="btn btn-primary">envoyer</button>
+            </form>
         </div>
         <div class="col-12 col-md-6 col-xl-3 bordered">
             <button class="btn btn-primary" onclick="showLadder(true)">Voir le classement</button>
@@ -58,14 +63,13 @@
     <img src="img/kick.png" title="kick">
     <img src="img/hurt.png" title="hurt">
 </div>
-
-
 <!-- development version, includes helpful console warnings -->
 <script src="js/vue.js"></script>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/jquery-3.3.1.min.js"></script>
 
+<script src="/js/chat.js"></script>
 <script src="/fightgame.js"></script>
 <script src="/lobby.js"></script>
 

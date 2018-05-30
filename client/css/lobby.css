@@ -24,3 +24,13 @@
 #images {
     display: none;
 }
+.conversation {
+    border: solid 1px red;
+    height: 50%;
+    overflow-y: scroll;
+}
+.message-auteur
+{
+    color: blue;
+    margin-right: 2px;
+}

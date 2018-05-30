@@ -5,6 +5,7 @@ game.proposedFights = [];
 game.currentfights = [];
 game.sockets = {};
 
+
 game.init = function(server, mongo, socketIO, sockets) {
     this.mongo = mongo;
     this.sockets = sockets;

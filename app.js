@@ -3,6 +3,7 @@ let http = require('http').Server(app);
 let fs = require('fs');
 let mongoServer = require('mongodb');
 let fightGame = require("./server/fightgame").data;
+let chat = require("./server/chat").data;
 let io = require('socket.io').listen(http);
 
 let mongo = {
@@ -48,9 +49,11 @@ mongo.client.connect(mongo.url, function(err, db) {
     else {
         mongo.db.jsFight = db.db('JsFight');
         console.log('Js Fight mongo db initialized');
+        
     }
 
     fightGame.init(http, mongo, io, sockets);
+    chat.init(io,sockets);
     /*mongo.db.jsFight.collection('User').findOne({
         _id: mongo.objectId('5b02dcd58898a535ec9705ab'),
     }, function(err, result){
@@ -156,7 +159,7 @@ app.get('/vuedata', function(req, res) {
     // TODO Liste des joueurs avec mongo
     let data = {
         pseudo: 'Zarnes',
-            serverIp: '192.168.1.14',
+            serverIp: 'localhost',
             players: [
             {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
             {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
