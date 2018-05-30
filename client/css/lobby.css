@@ -9,8 +9,7 @@
     background: #ffffffd6;
 
     border-radius: 10px;
-    border-style: solid;
-    border-color: #333333a3;
+    border: solid #333333a3;
 }
 
 #game-zone {
@@ -33,4 +32,15 @@
 {
     color: blue;
     margin-right: 2px;
+}
+
+
+/* Mariem diff */
+#table-ladder{
+    border: medium solid #6495ed;
+    border-collapse: collapse;
+    width: 50%;
+}
+#th {
+    background-color: #e4606d;
 }

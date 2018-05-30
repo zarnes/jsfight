@@ -129,6 +129,12 @@ function FightGame(canvas, main) {
                 game.fight.rightPlayer.y -= data['rightPlayerSetGravity'].y;
             }
         });
+
+        this.socket.on('fightFinish', function(data) {
+            alert('fin du combat !');
+            game.gamestate = 'lobby';
+            delete game.fight;
+        });
     };
 
     function initKeyPress() { // TODO change name
@@ -507,17 +513,26 @@ function FightGame(canvas, main) {
     this.writeMenu = function()
     {
         let fontSize = 34 * this.pixelX;
-        this.ctx.font = fontSize + "px Arial";
-        this.ctx.fillText("Combat rapide", 390 * this.pixelX, 310 * this.pixelY);
+        this.writeText('Combat Rapide', 500, 310, 34);
+        /*this.ctx.font = fontSize + "px Arial";
+        this.ctx.fillText("Combat rapide", 390 * this.pixelX, 310 * this.pixelY);*/
 
-        this.ctx.beginPath();
+        this.writeLines([
+            {x: 350, y: 250},
+            {x: 650, y: 250},
+            {x: 650, y: 350},
+            {x: 350, y: 350},
+            {x: 350, y: 250}
+        ]);
+
+        /*this.ctx.beginPath();
         this.ctx.moveTo(350 * this.pixelX, 250 * this.pixelY);
         this.ctx.lineTo(650 * this.pixelX, 250 * this.pixelY);
         this.ctx.lineTo(650 * this.pixelX, 350 * this.pixelY);
         this.ctx.lineTo(350 * this.pixelX, 350 * this.pixelY);
         this.ctx.lineTo(350 * this.pixelX, 250 * this.pixelY);
         this.ctx.stroke();
-        this.ctx.closePath();
+        this.ctx.closePath();*/
     };
 
     this.writeLFG = function()

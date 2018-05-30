@@ -6,6 +6,67 @@ game.currentfights = [];
 game.sockets = {};
 game.frameTime;
 
+game.cLog = function(n, b) { return Math.log(n)/Math.log(b)};
+
+game.finishFight = function(fight) {
+    var winner;
+    var loser;
+
+    if (fight.leftPlayer.life <= 0) {
+        winner = fight.rightPlayer;
+        loser = fight.leftPlayer;
+    }
+    else {
+        winner = fight.leftPlayer;
+        loser = fight.rightPlayer;
+    }
+
+    var amount = 0;
+    var time = 300;
+    if (fight.timeStamp + (1000 * 60 * 5) > Date.now())
+        time = (Date.now() - fight.timeStamp) / 1000;
+
+    let logBase = 1.1;
+    let maxPoints = 70;
+    let multiplier = 0.72;
+
+    amount = ((maxPoints - game.cLog(time, logBase)) * multiplier);
+    amount = parseInt(amount);
+    console.log(winner.pseudo + ' beat ' + loser.pseudo + ' in ' + time + ' seconds, granting ' + amount + ' points.');
+
+    winner.score = parseInt(winner.score) + amount;
+    loser.score = parseInt(loser.score) - amount;
+    if (loser.score < 0) loser.score = 0;
+
+    game.sockets[winner.id].player.identity.score = winner.score;
+    game.sockets[loser.id].player.identity.score = loser.score;
+
+    game.mongo.db.jsFight.collection('User').update({
+        '_id': game.mongo.objectId(winner.id)
+    }, {$set: {
+            score: winner.score
+        }});
+
+    game.mongo.db.jsFight.collection('User').update({
+        '_id': game.mongo.objectId(loser.id)
+    }, {$set: {
+            score: loser.score
+        }});
+
+    let data = {
+        time: time,
+        amount: amount,
+        winnerPseudo: winner.pseudo,
+        loserPseudo: loser.pseudo,
+        winnerScore: winner.score,
+        loserScore: loser.score
+    };
+
+    game.sockets[winner.id].emit('fightFinish', data);
+    game.sockets[loser.id].emit('fightFinish', data);
+
+    delete game.currentfights[fight.fightId];
+};
 
 game.init = function(server, mongo, socketIO, sockets) {
     this.mongo = mongo;
@@ -56,7 +117,7 @@ game.init = function(server, mongo, socketIO, sockets) {
             var feedback = {};
 
             if (action.action === 'attack') {
-                let power = 10;
+                let power = 1000;
                 var xValid;
                 if (action.player === 'left')
                     xValid = fight[tPlayer].x + 100 > fight[oPlayer].x - 30;
@@ -71,7 +132,12 @@ game.init = function(server, mongo, socketIO, sockets) {
                     fight[tPlayer].y + 70 - tHeight < fight[oPlayer].y
                 ) {
                     fight[oPlayer].life -= power;
-                    feedback[oPlayer + 'Life'] = power;
+                    if (fight[oPlayer].life <= 0) {
+                        feedback[oPlayer + 'Life'] = fight[oPlayer].life;
+                        game.finishFight(fight);
+                    }
+                    else
+                        feedback[oPlayer + 'Life'] = power;
                 }
                 feedback[tPlayer + 'State'] = 'punch';
                 feedback[tPlayer + "NextMove"] = 0.35;
@@ -235,8 +301,10 @@ game.proposeNewFight = function(asker, target) {
             this.sockets[asker.id].emit('startFight', fight);
             this.sockets[target.id].emit('startFight', fight);
 
-            this.proposedFights.slice(this.proposedFights[i]);
+            this.proposedFights.splice(i, 1);
+            //delete this.proposedFights[i];
             //return this.proposedFights[i];
+            return true;
         }
     }
 

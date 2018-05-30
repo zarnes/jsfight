@@ -30,9 +30,6 @@ $(document).ready(function(){
         main.socket.emit('fightGiveIdentity', identity)
     }
 
-    var main = {};
-    debug = main;
-
     function socketInit() {
         main.socket = io.connect('http://' + main.app.serverIp);
         main.socket.on('connection', function(err) {
@@ -52,6 +49,23 @@ $(document).ready(function(){
         });
         main.socket.on('message', function(message) { console.log('Message from server : ' + message); });
     }
+
+    var main = {};
+    debug = main;
+
+    var players= [
+        {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
+        {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
+    ]
+    $('#table-ladder').DataTable( {
+        data:players,
+        columns: [
+            { data: 'pseudo' },
+            { data: 'ladder'},
+            { data: 'score' },
+            { data: 'connected'}
+        ]
+    } );
 
     $.ajax({
         url: "vuedata",
