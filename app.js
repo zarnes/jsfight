@@ -3,6 +3,12 @@ let http = require('http').Server(app);
 let fs = require('fs');
 let mongoServer = require('mongodb');
 let fightGame = require("./server/fightgame").data;
+
+let bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 let chat = require("./server/chat").data;
 let io = require('socket.io').listen(http);
 
@@ -135,8 +141,40 @@ app.get('/', function(req, res){
     });
 });
 
-app.get('/login', function(req, res){
-    console.log(req.body);
+app.post('/login', function(req, res){
+    mongo.db.jsFight.collection('Access').findOne(
+        {"mail": req.body.fname, $and: [ { "password": req.body.password }]}
+        , function (err, result) {
+            console.log(result);
+            if(result == null){
+                res.redirect('/');
+                return false;
+            }else if (result != null){
+                res.redirect('/lobby')
+            }
+
+        });
+
+    /*mongo.db.jsFight.collection('Access').findOne(
+        {
+            _id: mongo.objectId.valueOf(result._id),
+        }, function (err, result) {
+            console.log(result);
+        });*/
+});
+
+app.get('/register', function(req, res){
+    fs.readFile('client/register.html', function(err, data){
+        if (err) {
+            res.writeHead(500, {'Content-Type': 'text/plain'});
+            res.end('Error reading login page');
+        }
+        else
+        {
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(data);
+        }
+    });
 });
 
 app.get('/lobby', function(req, res) {
@@ -160,8 +198,8 @@ app.get('/vuedata', function(req, res) {
     // TODO Liste des joueurs avec mongo
     let data = {
         pseudo: 'Zarnes',
-            serverIp: 'localhost',
-            players: [
+        serverIp: 'localhost',
+        players: [
             {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
             {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
         ]
@@ -171,6 +209,8 @@ app.get('/vuedata', function(req, res) {
     res.end();
 });
 
+
 http.listen(80);
+
 
 

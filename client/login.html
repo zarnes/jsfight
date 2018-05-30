@@ -1,16 +1,34 @@
+<!doctype html>
+<html lang="fr">
 <head>
+    <meta charset="utf-8">
     <title>JS Fight - Login</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/register.css" rel="stylesheet">
 </head>
-<body>
-    <div class="row">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto">
-            <form action="/login" method="post">
-                <input type="text" class="col-12" name="mail">
-                <input type="password" class="col-12" name="mail">
-                <button class="col-12">Se connecter</button>
-            </form>
-        </div>
-    </div>
+<body class="text-center">
+<form class="form-signin" name="form1" id="form1" action="/login" method="post" onsubmit="required()">
+    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+    <label for="inputEmail" class="sr-only">Adresse mail</label>
+    <input type="email" name ="fname" id="inputEmail" class="form-control" placeholder="Adresse mail" required autofocus>
+    <label for="inputPassword" class="sr-only">Mot de passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+    <button class="btn btn-lg btn-primary btn-block" id="submit-btn"type="submit">Connexion</button>
+    <p>Pas encore de comtpe? <a href="/register">Inscris-toi</a></p>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+</form>
 </body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="js/vue.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+<script src="/login.js"></script>
+</html>
