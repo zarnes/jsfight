@@ -171,16 +171,6 @@ app.get('/', function(req, res){
 });
 
 app.post('/login', function(req, res) {
-    var insert = {
-        mail: req.body.fname,
-        password: req.body.password
-    };
-    mongoServer.connect(url, function (err, mongoServer) {
-        mongo.db.jsFight.collection('Access').insert(insert, function (err, result) {
-            console.log('Data inserted');
-        });
-    });
-
     mongo.db.jsFight.collection('Access').findOne(
         {"mail": req.body.fname, $and: [ { "password": req.body.password }]}
         , function (err, result) {
@@ -206,8 +196,59 @@ app.post('/login', function(req, res) {
 });
 
 
-app.get('/register', function(req, res, next){
+app.post('/register', function(req, res, next){
+    var pseudo = req.body.username;
 
+    let player = {
+        pseudo: req.body.pseudo,
+        score: 1000,
+        wins: 0,
+        loses: 0,
+        playtime: 0
+    };
+
+    mongo.db.jsFight.collection('Access').findOne({
+        mail: req.body.mail
+    }, function(err, result){
+        if (!err && !result) {
+            mongo.db.jsFight.collection('User').findOne({
+                pseudo: req.body.pseudo
+            }, function(err, result){
+                if (!err && !result) {
+                    mongo.db.jsFight.collection('User').insert(player, function(err, result){
+                        let user = {
+                            mail: req.body.mail,
+                            password: req.body.password,
+                            playerId: result.insertedIds[0].toString()
+                        };
+                        mongo.db.jsFight.collection('Access').insert(user, function(err, result){
+                            if (!err)
+                                console.log('Player ' + req.body.pseudo + ' registered');
+                            res.redirect('/');
+                        })
+                    })
+                }
+                else
+                    res.redirect('/register'); // TODO check si pas de boucle infinie
+            })
+        }
+        else
+            res.redirect('/register');
+    });
+});
+
+app.get('/register', function(req, res){
+    fs.readFile('client/register.html', function(err, data){
+        if (err) {
+            res.writeHead(500, {'Content-Type': 'text/plain'});
+            res.end('Error reading register page');
+        }
+        else
+        {
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(data);
+        }
+    });
 });
 
 

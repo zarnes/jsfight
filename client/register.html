@@ -17,13 +17,13 @@
 </head>
 
 <body class="text-center">
-<form class="form-signin" name="form1" id="form1" action="/" method="get">
+<form class="form-signin" name="form1" id="form1" action="/register" method="post">
     <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
-    <input type="text" name='username'id="inputUsername" class="form-control" placeholder="Pseudo" required autofocus>
-    <label for="inputUsername" class="sr-only">Pseudo</label>
+    <label for="inputPseudo" class="sr-only">Pseudo</label>
+    <input type="text" name='pseudo' id="inputPseudo" class="form-control" placeholder="Pseudo" required autofocus>
     <label for="inputEmail" class="sr-only">Adresse mail</label>
-    <input type="email" name='mail' id="inputEmail" class="form-control" placeholder="Adresse mail" required autofocus>
+    <input type="email" name='mail' id="inputEmail" class="form-control" placeholder="Adresse mail" required>
     <label for="inputPassword" class="sr-only">Mot de passe</label>
     <input type="password" name='password' id="inputPassword" class="form-control" placeholder="Mot de passe" required>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Inscription</button>
