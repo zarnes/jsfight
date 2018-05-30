@@ -6,6 +6,7 @@ game.currentfights = [];
 game.sockets = {};
 game.frameTime;
 
+
 game.init = function(server, mongo, socketIO, sockets) {
     this.mongo = mongo;
     this.sockets = sockets;

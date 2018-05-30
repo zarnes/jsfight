@@ -8,6 +8,12 @@ function showLadder(show) {
 }
 
 $(document).ready(function(){
+    $(document).on("submit", "form", function(e){
+        e.preventDefault();
+        var message = $("form input[name=message]").val();
+        main.chat.send(message);
+        return  true;
+    });
     function socketConnection(err) {
         if (err) {
             console.log("Error from connection : " + err);
@@ -33,6 +39,7 @@ $(document).ready(function(){
             socketConnection(err);
             main.game.socket = main.socket;
             main.game.socketInit();
+            main.chat.initsocket();
         });
         main.socket.on('fightNotificationIdentified', function (err) {
             if (err) {
@@ -64,5 +71,12 @@ $(document).ready(function(){
             main.game = new FightGame(canvas, main);
         else
             console.log("Game not initialized !");
+
+        main.chat = new Chat(main);
+        main.chat.socket = main.socket;
     });
+
+    
+
+    
 });
