@@ -4,8 +4,8 @@
     <list default="true" id="4d975f45-2c0b-475f-a59c-02c5a979d384" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/fightgame.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/fightgame.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/fightgame.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/fightgame.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/register.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,119 +17,44 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="jsfight" />
+  </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.11796982">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="lobby.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/client/lobby.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1037">
-                  <caret line="61" column="24" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="lobby.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/client/lobby.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="425">
-                  <caret line="25" column="39" selection-start-line="25" selection-start-column="39" selection-end-line="25" selection-end-column="39" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="fightgame.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/client/fightgame.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-2570">
-                  <caret line="82" column="46" lean-forward="true" selection-start-line="82" selection-start-column="46" selection-end-line="82" selection-end-column="46" />
-                  <folding>
-                    <element signature="e#554#988#0" />
-                    <element signature="e#7529#7827#0" />
-                    <element signature="e#7865#9233#0" />
-                    <element signature="e#9273#10570#0" />
-                    <element signature="e#10609#11189#0" />
-                    <element signature="e#11227#11790#0" />
-                    <element signature="e#11828#12028#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="fight.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/shared/fight.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="119">
-                  <caret line="7" column="10" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="7" selection-end-column="10" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="206">
-                  <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="fightgame.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/server/fightgame.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="218">
-                  <caret line="87" column="67" selection-start-line="87" selection-start-column="67" selection-end-line="87" selection-end-column="67" />
-                  <folding>
-                    <element signature="e#937#1609#0" />
-                    <element signature="e#5530#5863#0" />
-                    <element signature="e#5913#7894#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="mongo_client.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/node_modules/mongodb/lib/mongo_client.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="406">
-                  <caret line="793" selection-start-line="793" selection-end-line="793" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="403">
+              <caret line="146" column="18" lean-forward="true" selection-start-line="146" selection-start-column="18" selection-end-line="146" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="register.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/client/register.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
+              <folding>
+                <element signature="e#1294#1300#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>lobby</find>
-      <find>io</find>
-      <find>enem</find>
-      <find>writede</find>
-      <find>maxCoordY</find>
-      <find>identified =</find>
-      <find>this.gamestate</find>
-      <find>.id</find>
-      <find>proposeFight</find>
-      <find>writeli</find>
-      <find>proposeNewFight</find>
-      <find>keysCount</find>
-      <find>onKeyPress</find>
-      <find>.emit('fightAc</find>
-      <find>attack</find>
       <find>1000 / this.framerate</find>
       <find>this.fight =</find>
       <find>startFight</find>
@@ -145,6 +70,21 @@
       <find>fightupdate</find>
       <find>askupdate</find>
       <find>feedback =</find>
+      <find>$PROJECT_DIR$/../../../login</find>
+      <find>app</find>
+      <find>let mong</find>
+      <find>let mongo</find>
+      <find>mongo</find>
+      <find>var ex</find>
+      <find>url</find>
+      <find>8080</find>
+      <find>set port</find>
+      <find>mongoos</find>
+      <find>/</find>
+      <find>index</find>
+      <find>login</find>
+      <find>80</find>
+      <find>mongo.db</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -159,9 +99,13 @@
         <option value="$PROJECT_DIR$/shared/fightController.js" />
         <option value="$PROJECT_DIR$/shared/fight.js" />
         <option value="$PROJECT_DIR$/client/lobby.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/client/fightgame.js" />
         <option value="$PROJECT_DIR$/server/fightgame.js" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/client/css/register.css" />
+        <option value="$PROJECT_DIR$/client/login.html" />
+        <option value="$PROJECT_DIR$/client/login.js" />
+        <option value="$PROJECT_DIR$/client/register.html" />
       </list>
     </option>
   </component>
@@ -173,19 +117,36 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+    </packageJsonPaths>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="width" value="974" />
-    <option name="height" value="1047" />
+    <option name="y" value="23" />
+    <option name="width" value="655" />
+    <option name="height" value="981" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -202,33 +163,25 @@
               <item name="jsfight" type="b2602c69:ProjectViewProjectNode" />
               <item name="jsfight" type="462c0819:PsiDirectoryNode" />
               <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jsfight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jsfight" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jsfight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jsfight" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.prettier" value="true" />
     <property name="node.js.path.for.package.prettier" value="project" />
     <property name="node.js.selected.package.prettier" value="" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.mongoOptions" />
   </component>
@@ -267,34 +220,49 @@
       <workItem from="1526913507759" duration="34440000" />
       <workItem from="1527071660064" duration="19886000" />
       <workItem from="1527491695152" duration="2179000" />
+      <workItem from="1527597343696" duration="290000" />
+      <workItem from="1527597716345" duration="8965000" />
+      <workItem from="1527662933473" duration="6716000" />
+      <workItem from="1527675917298" duration="452000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64241000" />
+    <option name="totallyTimeSpent" value="65054000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="974" height="1047" extended-state="0" />
+    <frame x="0" y="23" width="655" height="981" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23068893" />
+      <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info id="Image Layers" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" order="4" weight="0.32957393" />
+      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3205575" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32081544" />
       <window_info id="npm" order="2" side_tool="true" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Mongo Explorer" order="3" visible="true" weight="0.007306889" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32939914" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.4892704" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3572594" />
+      <window_info anchor="right" id="Database" order="5" weight="0.32957393" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4892704" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" id="Mongo Explorer" order="3" visible="true" weight="0.007306889" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
@@ -375,6 +343,42 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/server/fightgame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="712">
+          <caret line="91" column="44" lean-forward="true" selection-start-line="91" selection-start-column="44" selection-end-line="91" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/js/login.js" />
+    <entry file="file://$PROJECT_DIR$/client/lobby.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="110" column="18" lean-forward="true" selection-start-line="110" selection-start-column="18" selection-end-line="110" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5610">
+          <caret line="374" column="10" selection-start-line="374" selection-start-column="5" selection-end-line="374" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/lobby.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="14" column="28" lean-forward="true" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/lobby.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1037">
@@ -400,15 +404,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1343">
           <caret line="79" column="54" lean-forward="true" selection-start-line="79" selection-start-column="54" selection-end-line="79" selection-end-column="54" />
-          <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -423,11 +418,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1139">
           <caret line="82" column="30" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
-          <folding>
-            <element signature="e#937#1609#0" />
-            <element signature="e#5530#5863#0" />
-            <element signature="e#5913#7894#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -456,15 +446,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2278">
           <caret line="134" column="20" lean-forward="true" selection-start-line="134" selection-start-column="20" selection-end-line="134" selection-end-column="20" />
-          <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -479,11 +460,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1547">
           <caret line="91" column="54" lean-forward="true" selection-start-line="91" selection-start-column="54" selection-end-line="91" selection-end-column="54" />
-          <folding>
-            <element signature="e#937#1609#0" />
-            <element signature="e#5530#5863#0" />
-            <element signature="e#5913#7894#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -491,11 +467,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
           <caret line="60" column="16" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
-          <folding>
-            <element signature="e#937#1609#0" />
-            <element signature="e#5530#5863#0" />
-            <element signature="e#5913#7894#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -517,15 +488,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="26" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
-          <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -540,15 +502,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="25" column="26" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
-          <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -574,20 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/lobby.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="39" selection-start-line="25" selection-start-column="39" selection-end-line="25" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/lobby.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1037">
-          <caret line="61" column="24" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/mongodb/lib/utils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
@@ -609,26 +548,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="94" column="23" selection-start-line="94" selection-start-column="23" selection-end-line="94" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/fightgame.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2570">
           <caret line="82" column="46" lean-forward="true" selection-start-line="82" selection-start-column="46" selection-end-line="82" selection-end-column="46" />
-          <folding>
-            <element signature="e#554#988#0" />
-            <element signature="e#7529#7827#0" />
-            <element signature="e#7865#9233#0" />
-            <element signature="e#9273#10570#0" />
-            <element signature="e#10609#11189#0" />
-            <element signature="e#11227#11790#0" />
-            <element signature="e#11828#12028#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -636,10 +559,85 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="218">
           <caret line="87" column="67" selection-start-line="87" selection-start-column="67" selection-end-line="87" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/css/style.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/account.js" />
+    <entry file="file://$PROJECT_DIR$/client/routes/index.js" />
+    <entry file="file://$PROJECT_DIR$/routes/users.js" />
+    <entry file="file://$PROJECT_DIR$/views/lobby.handlebars" />
+    <entry file="file://$PROJECT_DIR$/views/index.handlebars" />
+    <entry file="file://$PROJECT_DIR$/views/login.handlebars" />
+    <entry file="file://$PROJECT_DIR$/views/layouts/layout.handlebars" />
+    <entry file="file://$PROJECT_DIR$/routes/index.js" />
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="15" column="7" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/lobby.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/css/lobby.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/lobby.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="4" column="48" selection-start-line="4" selection-start-column="48" selection-end-line="4" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/css/register.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="508">
+          <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="11" lean-forward="true" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
           <folding>
-            <element signature="e#937#1609#0" />
-            <element signature="e#5530#5863#0" />
-            <element signature="e#5913#7894#0" />
+            <element signature="e#1699#1705#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="146" column="18" lean-forward="true" selection-start-line="146" selection-start-column="18" selection-end-line="146" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
+          <folding>
+            <element signature="e#1294#1300#0" expanded="true" />
           </folding>
         </state>
       </provider>

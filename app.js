@@ -3,6 +3,10 @@ let http = require('http').Server(app);
 let fs = require('fs');
 let mongoServer = require('mongodb');
 let fightGame = require("./server/fightgame").data;
+let bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 let mongo = {
     server: mongoServer,
@@ -88,7 +92,39 @@ app.get('/', function(req, res){
 });
 
 app.post('/login', function(req, res){
-    // TODO add login
+    mongo.db.jsFight.collection('Access').findOne(
+        {"mail": req.body.fname, $and: [ { "password": req.body.password }]}
+        , function (err, result) {
+            console.log(result);
+            if(result == null){
+                res.redirect('/');
+                return false;
+            }else if (result != null){
+                res.redirect('/lobby')
+            }
+
+        });
+
+    /*mongo.db.jsFight.collection('Access').findOne(
+        {
+            _id: mongo.objectId.valueOf(result._id),
+        }, function (err, result) {
+            console.log(result);
+        });*/
+});
+
+app.get('/register', function(req, res){
+    fs.readFile('client/register.html', function(err, data){
+        if (err) {
+            res.writeHead(500, {'Content-Type': 'text/plain'});
+            res.end('Error reading login page');
+        }
+        else
+        {
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(data);
+        }
+    });
 });
 
 app.get('/lobby', function(req, res) {
@@ -108,6 +144,6 @@ app.get('/lobby', function(req, res) {
     })
 });
 
-http.listen(80);
+http.listen(8080);
 
 
