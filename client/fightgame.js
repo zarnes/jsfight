@@ -60,6 +60,7 @@ function FightGame(canvas, main) {
 
         this.socket.on('fightUpdate', function(data) {
             if (data.fight !== undefined) {
+                console.log('full updating fight');
                 game.fight = data.fight;
                 if (game.fight.leftPlayer.id === game.me.id) {
                     game.me = game.fight.leftPlayer;
@@ -75,13 +76,13 @@ function FightGame(canvas, main) {
                     console.log(game.me);
                 }
             }
-            if (data.leftPlayerLife !== undefined) {
-                game.fight.leftPlayer.life -= data.leftPlayerLife;
+            if (data['leftPlayerLife'] !== undefined) {
+                game.fight.leftPlayer.life -= data['leftPlayerLife'];
                 game.fight.leftPlayer.nextMove = game.tick + game.framerate * 0.3;
                 game.fight.leftPlayer.state = 'hurt';
             }
-            if (data.rightPlayerLife !== undefined) {
-                game.fight.rightPlayer.life -= data.rightPlayerLife;
+            if (data['rightPlayerLife'] !== undefined) {
+                game.fight.rightPlayer.life -= data['rightPlayerLife'];
                 game.fight.rightPlayer.nextMove = game.tick + game.framerate * 0.3;
                 game.fight.rightPlayer.state = 'hurt';
             }
@@ -91,7 +92,7 @@ function FightGame(canvas, main) {
             if (data.rightPlayerMove !== undefined) {
                 game.fight.rightPlayer.x += data.rightPlayerMove;
             }
-            if (data.rightPlayerState !== undefined) {
+            if (data.rightPlayerState !== undefined) { // TODO rendre joli
                 game.fight.rightPlayer.state = data.rightPlayerState;
             }
             if (data.leftPlayerState !== undefined) {
@@ -104,6 +105,28 @@ function FightGame(canvas, main) {
             if (data.rightPlayerNextMove !== undefined) {
                 game.fight.rightPlayer.nextMove = game.tick + parseInt(
                     parseFloat(data.rightPlayerNextMove) * game.framerate);
+            }
+            if (data.leftPlayerGravityPos !== undefined) {
+                game.fight.leftPlayer.x = data.leftPlayerGravityPos.x;
+                game.fight.leftPlayer.y = data.leftPlayerGravityPos.y;
+            }
+            if (data.rightPlayerGravityPos !== undefined) {
+                game.fight.rightPlayer.x = data.rightPlayerGravityPos.x;
+                game.fight.rightPlayer.y = data.rightPlayerGravityPos.y;
+            }
+            if (data.leftPlayerCrouched !== undefined) {
+                game.fight.leftPlayer.crouched = data.leftPlayerCrouched;
+            }
+            if (data.rightPlayerCrouched !== undefined) {
+                game.fight.rightPlayer.crouched = data.rightPlayerCrouched;
+            }
+            if (data['leftPlayerSetGravity'] !== undefined) {
+                game.fight.leftPlayer.velocity = data['leftPlayerSetGravity'];
+                game.fight.leftPlayer.y -= data['leftPlayerSetGravity'].y;
+            }
+            if (data['rightPlayerSetGravity'] !== undefined) {
+                game.fight.rightPlayer.velocity = data['rightPlayerSetGravity'];
+                game.fight.rightPlayer.y -= data['rightPlayerSetGravity'].y;
             }
         });
     };
@@ -118,6 +141,7 @@ function FightGame(canvas, main) {
                 39: true,   // right arrow
                 40: true,   // down arrow
                 65: true,   // a
+                90: true,   // z
             };
 
         $(document).keydown(function (event) {
@@ -131,11 +155,22 @@ function FightGame(canvas, main) {
 
                 if (interval === null) {
                     interval = setInterval(function () {
+                        if (game.me.state === 'hurt' && game.me.y !== 600) {
+                            return;
+                        }
+
                         var action = {
                             action: '',
                             fightId: game.fight.fightId,
                             player: (game.fight.leftPlayer.id === game.me.id ? 'left' : 'right')
                         };
+
+                        if (pressedKeys[90] && game.me.nextMove < game.tick) {
+                            game.me.state = 'kick';
+                            game.me.nextMove = game.tick + game.framerate * 0.7;
+                            action.action = 'kick';
+                            game.socket.emit('fightAction', action);
+                        }
 
                         if (pressedKeys[65] && game.me.nextMove < game.tick) {
                             game.me.state = 'punch';
@@ -145,9 +180,10 @@ function FightGame(canvas, main) {
                         }
 
                         var movement = 0;
-                        if (pressedKeys[37] && game.me.state === 'idle') --movement;
-                        if (pressedKeys[39] && game.me.state === 'idle') ++movement;
+                        if (pressedKeys[37] && game.me.state === 'idle' && game.me.y === 600) --movement;
+                        if (pressedKeys[39] && game.me.state === 'idle' && game.me.y === 600) ++movement;
                         if (movement !== 0) {
+                            console.log(movement);
                             let distance = Math.abs(game.me.x + movement - game.other.x);
                             if (distance > 70 && game.me.x + movement > 0 && game.me.x + movement < 1000) {
                                 action.action = 'move';
@@ -156,11 +192,17 @@ function FightGame(canvas, main) {
                             }
                         }
 
-                        if (pressedKeys[38] && game.me.y === 600) {
-                            game.me.velocity = {x: movement, y: 2};
-                            game.me.y -= 1;
+                        if (pressedKeys[38] && game.me.state === 'idle' && game.me.y === 600) {
+                            game.me.velocity = {x: movement, y: 4};
+                            game.me.y -= game.me.velocity.y;
                             action.action = 'jump';
+                            action.velocity = game.me.velocity;
                             game.socket.emit('fightAction', action);
+                        }
+                        else if (pressedKeys[40] && game.me.state === 'idle' && game.me.y === 600 && !game.me.crouched) {
+                            action.action = 'crouch';
+                            action.crouched = game.me.crouched = true;
+                            game.socket.emit('fightAction', action)
                         }
 
                     }, game.frameTime);
@@ -170,6 +212,16 @@ function FightGame(canvas, main) {
 
         $(document).keyup(function (event) {
             var keyCode = event.which;
+
+            if (keyCode === 40 && game.me.state !== 'hurt' && game.me.crouched) {
+                var action = {
+                    fightId: game.fight.fightId,
+                    player: (game.fight.leftPlayer.id === game.me.id ? 'left' : 'right'),
+                    action: 'crouch',
+                    crouched: game.me.crouched = false
+                };
+                game.socket.emit('fightAction', action)
+            }
 
             if (pressedKeys[keyCode]) {
                 delete pressedKeys[keyCode];
@@ -253,13 +305,47 @@ function FightGame(canvas, main) {
         );
     };
 
+    this.writePlayer = function(player) {
+        let height = player.crouched ? 100 : 200;
+        this.writeLines([
+            {x: player.x - 30, y: player.y},
+            {x: player.x + 30, y: player.y},
+            {x: player.x + 30, y: player.y - height},
+            {x: player.x - 30, y: player.y - height},
+            {x: player.x - 30, y: player.y}
+        ], 'fill', player === game.me ? '#00bd04' : '#bd1300');
+
+        var pic = game.images.fighting;
+        if (player.state === 'punch') pic = game.images.punch;
+        else if (player.state === 'hurt') pic = game.images.hurt;
+        else if (player.state === 'kick') pic = game.images.kick;
+
+        var widthExtra = 0;
+        if (player.state === 'punch') widthExtra = 60;
+        if (player.state === 'kick') widthExtra = 120;
+
+
+        this.writePicture(pic, player.x - 30, player.y - height, 60 + widthExtra, height, false);
+
+        if ((player.y !== 600 && player.state === 'hurt') || player.nextMove - game.tick > 0) {
+            this.writeText(
+                player.nextMove - game.tick,
+                player.x,
+                player.y - 220,
+            );
+        }
+        else
+            player.state = 'idle';
+    };
+
     this.writePlayers = function() {
         let left = game.fight.leftPlayer;
+        let lHeight = left.crouched ? 100 : 200;
         this.writeLines([
             {x: left.x - 30, y: left.y},
             {x: left.x + 30, y: left.y},
-            {x: left.x + 30, y: left.y - 200},
-            {x: left.x - 30, y: left.y - 200},
+            {x: left.x + 30, y: left.y - lHeight},
+            {x: left.x - 30, y: left.y - lHeight},
             {x: left.x - 30, y: left.y}
         ], 'fill', '#00bd04');
 
@@ -267,25 +353,44 @@ function FightGame(canvas, main) {
         if (left.state === 'punch') pic = game.images.punch;
         else if(left.state === 'hurt') pic = game.images.hurt;
         let widthExtra = (left.state === 'punch' ? 55 : 0);
-        this.writePicture(pic, left.x - 30, left.y - 200, 60 + widthExtra, 200, true);
+        this.writePicture(pic, left.x - 30, left.y - lHeight, 60 + widthExtra, lHeight, true);
 
-        if (left.nextMove - game.tick > 0) {
+        /*if (left.nextMove - game.tick > 0) {
             this.writeText(
                 left.nextMove - game.tick,
                 left.x,
                 left.y - 220,
             );
         }
+        else if (left.state !== 'hurt' && left.y === 600)
+            left.state = 'idle';*/
+
+        /*if ((left.y === 600 || left.state !== 'hurt') && left.nextMove - game.tick > 0)
+            left.state = 'idle';
+        else
+            this.writeText(
+                left.nextMove - game.tick,
+                left.x,
+                left.y - 220,
+            );*/
+
+        if ((left.y !== 600 && left.state === 'hurt') || left.nextMove - game.tick > 0) // TODO better this
+            this.writeText(
+                left.nextMove - game.tick,
+                left.x,
+                left.y - 220,
+            );
         else
             left.state = 'idle';
 
 
         let right = game.fight.rightPlayer;
+        let rHeight = right.crouched ? 100 : 200;
         this.writeLines([
             {x: right.x - 30, y: right.y},
             {x: right.x + 30, y: right.y},
-            {x: right.x + 30, y: right.y - 200},
-            {x: right.x - 30, y: right.y - 200},
+            {x: right.x + 30, y: right.y - rHeight},
+            {x: right.x - 30, y: right.y - rHeight},
             {x: right.x - 30, y: right.y}
         ], 'fill', '#bd1300');
 
@@ -293,7 +398,7 @@ function FightGame(canvas, main) {
         if (right.state === 'punch') pic = game.images.punch;
         else if(right.state === 'hurt') pic = game.images.hurt;
         widthExtra = (right.state === 'punch' ? 60 : 0);
-        this.writePicture(pic, right.x - 30, right.y - 200, 60 + widthExtra, 200, true);
+        this.writePicture(pic, right.x - 30, right.y - rHeight, 60 + widthExtra, rHeight, true);
 
         if (right.nextMove - game.tick > 0) {
             this.writeText(
@@ -302,27 +407,63 @@ function FightGame(canvas, main) {
                 right.y - 220,
             );
         }
-        else
+        else {
+            if (left.y >= 600) {
+                left.y = 600;
+                left.velocity = {x: 0, y: 0};
+            }
+            else {
+                let distance = Math.abs(game.me.x + left.velocity.x - game.other.x);
+                if (left.x + left.velocity.x > 1000 || left.x + left.velocity.x < -1000 || distance < 70) {
+                    left.velocity.x = 0;
+                }
+                else
+                    left.x += left.velocity.x;
+
+                left.velocity.y -= (game.frameTime / 1000) * 5.5;
+                left.y -= left.velocity.y;
+                game.socket.emit('fightAction', {
+                    action: 'gravity',
+                    fightId: game.fight.fightId,
+                    player: (game.fight.leftPlayer.id === game.me.id ? 'left' : 'right'),
+                    velocity: left.velocity
+                });
+            }
             right.state = 'idle';
+        }
+
     };
 
-    this.calculateGravity = function() {
-        let left = game.fight.leftPlayer;
-        let right = game.fight.rightPlayer;
+    this.calculateGravity = function(player) {
+        //let left = game.fight.leftPlayer;
+        //let left = game.me;
+        let left = player;
 
-        if (left.y === 600) {
-            left.velocity = {x: 0, y: 0};
+        let distance = Math.abs(game.me.x + left.velocity.x - game.other.x);
+        if (left.x + left.velocity.x > 1000 || left.x + left.velocity.x < -1000 || distance < 70) {
+            left.velocity.x = 0;
         }
-        else {
-            left.velocity.y -= (game.frameTime / 1000) * 0.5;
+        else
+            left.x += left.velocity.x;
+
+        if (left.y < 600) {
+            left.velocity.y -= (game.frameTime / 1000) * 5.5;
+            left.y -= left.velocity.y;
             game.socket.emit('fightAction', {
                 action: 'gravity',
                 fightId: game.fight.fightId,
-                player: 'left',
+                player: (game.fight.leftPlayer.id === game.me.id ? 'left' : 'right'),
                 velocity: left.velocity
             });
-            left.x += left.velocity.x;
-            left.y -= left.velocity.y;
+        }
+        else if (left.y >= 600) {
+            left.y = 600;
+            left.velocity = {x: 0, y: 0};
+            game.socket.emit('fightAction', {
+                action: 'gravityFloor',
+                fightId: game.fight.fightId,
+                player: (left.id === game.fight.leftPlayer.id ? 'left' : 'right')
+            });
         }
     };
 
@@ -414,13 +555,15 @@ function FightGame(canvas, main) {
         if (this.gamestate === "lobby") this.writeMenu();
         else if (this.gamestate === "lfg") this.writeLFG();
         else if (this.gamestate === 'fighting'){
-            this.calculateGravity();
             if (game.nextFightupdate < game.tick) {
                 game.nextFightupdate += game.framerate * 2;
                 game.socket.emit('fightAskUpdate', game.fight.fightId);
             }
+            this.calculateGravity(game.me);
             this.writeLifes();
-            this.writePlayers();
+            //this.writePlayers();
+            this.writePlayer(game.me);
+            this.writePlayer(game.other);
         }
         else this.writeDefault();
     };

@@ -19,7 +19,7 @@ game.init = function(server, mongo, socketIO, sockets) {
             mongo.db.jsFight.collection('User').findOne({
                 '_id': mongo.objectId(opponentId)
             }, function (err, opponent) {
-                if (err){
+                if (err || opponent === undefined){
                     console.log('Player ' + socket.player.identity.id + ' tried to fight an unknown player ' + opponentId + '(' + err + ')');
                     return;
                 }
@@ -62,20 +62,44 @@ game.init = function(server, mongo, socketIO, sockets) {
                 else
                     xValid = fight[tPlayer].x - 100 < fight[oPlayer].x + 30;
 
-                /*let xValid = (action.player === 'left' ?
-                    fight[tPlayer].x + 100 > fight[oPlayer].x - 30 :
-                    fight[tPlayer].x - 100 < fight[oPlayer].x + 30);*/
-
+                let tHeight = fight[tPlayer].crouched ? 100 : 200;
+                let oHeight = fight[oPlayer].crouched ? 100 : 200;
                 if (
                     xValid &&
-                    fight[tPlayer].y - 170 > fight[oPlayer].y - 200 &&
-                    fight[tPlayer].y - 130 < fight[oPlayer].y
+                    fight[tPlayer].y + 30 - tHeight > fight[oPlayer].y - oHeight &&
+                    fight[tPlayer].y + 70 - tHeight < fight[oPlayer].y
                 ) {
                     fight[oPlayer].life -= power;
                     feedback[oPlayer + 'Life'] = power;
                 }
                 feedback[tPlayer + 'State'] = 'punch';
                 feedback[tPlayer + "NextMove"] = 0.35;
+            }
+            else if (action.action === 'kick') {
+                let power = 50;
+                var xValid;
+                if (action.player === 'left')
+                    xValid = fight[tPlayer].x + 150 > fight[oPlayer].x - 30;
+                else
+                    xValid = fight[tPlayer].x - 150 < fight[oPlayer].x + 30;
+
+                let tHeight = fight[tPlayer].crouched ? 100 : 200;
+                let oHeight = fight[oPlayer].crouched ? 100 : 200;
+                if (
+                    xValid &&
+                    fight[tPlayer].y + 80 - tHeight > fight[oPlayer].y - oHeight &&
+                    fight[tPlayer].y + 90 - tHeight < fight[oPlayer].y
+                ) {
+                    fight[oPlayer].life -= power;
+                    fight[oPlayer].y -= 2;
+                    feedback[oPlayer + 'Life'] = power;
+                    feedback[oPlayer + "SetGravity"] = {
+                        x: action.player === 'left' ? 5 : -5,
+                        y: 2
+                    };
+                }
+                feedback[tPlayer + 'State'] = 'kick';
+                feedback[tPlayer + "NextMove"] = 0.70;
             }
             else if (action.action === 'move') {
                 let movement = 2 * action.direction;
@@ -86,12 +110,10 @@ game.init = function(server, mongo, socketIO, sockets) {
             }
             else if (action.action === 'jump') {
                 fight[tPlayer].velocity = action.velocity;
-                fight[tPlayer].y -= 1;
+                fight[tPlayer].y -= action.velocity.y;
                 console.log(fight[tPlayer].y);
             }
             else if (action.action === 'gravity') {
-                console.log(fight[tPlayer].y);
-                console.log(fight[tPlayer].velocity.y);
                 if (fight[tPlayer].y >= 600) {
                     fight[tPlayer].velocity = {x: 0, y: 0};
                 }
@@ -99,8 +121,17 @@ game.init = function(server, mongo, socketIO, sockets) {
                     fight[tPlayer].velocity = action.velocity;
                     fight[tPlayer].x += fight[tPlayer].velocity.x;
                     fight[tPlayer].y -= fight[tPlayer].velocity.y;
-
                 }
+                feedback[tPlayer + 'GravityPos'] = {x: fight[tPlayer].x, y: fight[tPlayer].y};
+            }
+            else if (action.action === 'gravityFloor') {
+                fight[tPlayer].y = 600;
+                fight[tPlayer].velocity = {x: 0, y: 0};
+                feedback[tPlayer + 'GravityPos'] = {x: fight[tPlayer].x, y: fight[tPlayer].y};
+            }
+            else if (action.action === 'crouch') {
+                fight[tPlayer].crouched = action.crouched;
+                feedback[tPlayer + 'Crouched'] = action.crouched;
             }
 
             if (feedback !== {}) {
@@ -140,35 +171,6 @@ game.init = function(server, mongo, socketIO, sockets) {
         })
     });
 };
-
-function oldAttack() {
-    if (action.player === 'left') {
-        if (
-            // TODO x coords bugged
-            fight.leftPlayer.x + 100 > fight.rightPlayer.x - 30 &&
-            fight.rightPlayer.y - 170 > fight.leftPlayer.y - 200 &&
-            fight.rightPlayer.y - 130 < fight.leftPlayer.y
-        /*fight[tPlayer].x + 100 > fight[oPlayer].x - 30 &&
-        fight[tPlayer].y - 130 < fight[oPlayer].y - 200 &&
-        fight[tPlayer].y - 170 > fight[oPlayer].y*/
-        ) {
-            otherPlayer.life -= power;
-            feedback.rightPlayerLife = power;
-            // left attack right
-        }
-    }
-    if (action.player === 'right') {
-        if (
-            fight.rightPlayer.x - 100 < fight.leftPlayer.x + 30 &&
-            fight.rightPlayer.y - 170 > fight.leftPlayer.y - 200 &&
-            fight.rightPlayer.y - 130 < fight.leftPlayer.y
-        ) {
-            otherPlayer.life -= power;
-            feedback.leftPlayerLife = power;
-            // right attack left
-        }
-    }
-}
 
 game.checkFightTimeout = function() {
     var i = 0;
@@ -217,6 +219,7 @@ game.proposeNewFight = function(asker, target) {
             fight.leftPlayer.nextMove = 0;
             fight.leftPlayer.state = 'idle';
             fight.leftPlayer.velocity = {x: 0, y: 0};
+            fight.leftPlayer.crouched = false;
 
             fight.rightPlayer.life = fight.rightPlayer.maxLife = 1000;
             fight.rightPlayer.x = 700;
@@ -224,7 +227,7 @@ game.proposeNewFight = function(asker, target) {
             fight.rightPlayer.nextMove = 0;
             fight.rightPlayer.state = 'idle';
             fight.rightPlayer.velocity = {x: 0, y: 0};
-
+            fight.rightPlayer.crouched = false;
 
             this.currentfights[fight.fightId] = fight;
 
