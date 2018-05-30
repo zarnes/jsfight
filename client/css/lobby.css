@@ -23,24 +23,34 @@
 #images {
     display: none;
 }
+
 .conversation {
-    border: solid 1px red;
+    margin-left: -15px;
+    margin-right: -15px;
     height: 50%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
-.message-auteur
+
+.player-name
 {
     color: blue;
     margin-right: 2px;
+    font-weight: bold;
 }
 
-
-/* Mariem diff */
-#table-ladder{
-    border: medium solid #6495ed;
-    border-collapse: collapse;
-    width: 50%;
+.player-connected {
+    margin-top: 10px;
 }
-#th {
-    background-color: #e4606d;
+
+.player-connected button {
+    padding: 1px 6px;
+}
+
+#ladder table {
+    width: 100% !important;
+    background-color: #ffffffb0;
+}
+
+.hidden {
+    display: none;
 }

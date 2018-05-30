@@ -1,5 +1,7 @@
 <head>
     <title>JS Fight</title>
+    <meta charset="utf-8" />
+
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/lobby.css" rel="stylesheet">
@@ -21,8 +23,12 @@
         </div>
         <div class="col-12 col-md-6 col-xl-3 bordered">
             <button class="btn btn-primary" onclick="showLadder(true)">Voir le classement</button>
-            <div v-for="player in players">
-                <p>{{player.pseudo}}</p>
+            <div class="player-connected" v-for="player in players">
+                <span class="player-name">{{player.pseudo}}</span>
+                <span class="player-score">({{player.score}}</span>
+                <span class="player-ladder">{{player.ladder}})</span>
+                <button class="btn btn-danger">Défier</button>
+                <span class="hidden">{{player._id}}</span>
             </div>
         </div>
     </div>
@@ -36,7 +42,7 @@
             <th>Connecté</th>
             <th>Pseudo</th>
             <th>Score</th>
-            <th>Action</th>
+            <!--<th>Action</th>-->
         </thead>
     </table>
 </div>

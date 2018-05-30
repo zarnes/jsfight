@@ -42,6 +42,7 @@ io.sockets.on('connection', function(socket) {
         // TODO, juste envoyer l'id ?
         socket.player.identified = true;
         socket.player.identity = player;
+        socket.player.identity.id = socket.player.identity._id;
         socket.emit('message', 'Vous avez été identifié en tant que ' + socket.player.identity.pseudo);
         socket.emit('fightNotificationIdentified', '');
         sockets[socket.player.identity.id] = socket;
@@ -110,7 +111,6 @@ app.get('*.css', function(req, res) {
 });
 
 app.get('*.png', function(req, res) {
-    //console.log('loading css file : .' + req.url);
     fs.readFile("./client/" + req.url.toString(), function(err, data) {
         if (err)
         {
@@ -195,18 +195,18 @@ app.get('/lobby', function(req, res) {
 });
 
 app.get('/vuedata', function(req, res) {
-    // TODO Liste des joueurs avec mongo
-    let data = {
+    var appData = {
         pseudo: 'Zarnes',
-        serverIp: 'localhost',
-        players: [
-            {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
-            {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
-        ]
+        serverIp: 'localhost'
     };
-    //res.writeHead(200, {'Content-Type': 'application/json'});
-    res.send(data);
-    res.end();
+
+    mongo.db.jsFight.collection('User').find({}).sort({
+        "score": -1
+    }).toArray(function(err, result){
+        appData.players = result;
+        res.send(appData);
+        res.end();
+    });
 });
 
 

@@ -178,7 +178,6 @@ game.init = function(server, mongo, socketIO, sockets) {
             else if (action.action === 'jump') {
                 fight[tPlayer].velocity = action.velocity;
                 fight[tPlayer].y -= action.velocity.y;
-                console.log(fight[tPlayer].y);
             }
             else if (action.action === 'gravity') {
                 if (fight[tPlayer].y >= 600) {
@@ -256,6 +255,8 @@ game.checkFightTimeout = function() {
 };
 
 game.proposeNewFight = function(asker, target) {
+    if (asker.id === target.id)
+        return false;
     console.log(asker.pseudo + ' ask ' + target.pseudo + ' to fight');
     for (var i = 0; i < this.proposedFights.length; ++i) {
 

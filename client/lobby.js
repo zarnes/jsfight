@@ -14,6 +14,7 @@ $(document).ready(function(){
         main.chat.send(message);
         return  true;
     });
+
     function socketConnection(err) {
         if (err) {
             console.log("Error from connection : " + err);
@@ -53,39 +54,46 @@ $(document).ready(function(){
     var main = {};
     debug = main;
 
-    var players= [
-        {id: '5b02dcc48898a535ec9705aa', pseudo: 'Zarnes', ladder: '1', score: '1000', connected: 'true'},
-        {id: '5b02dcd58898a535ec9705ab', pseudo: 'Senraz', ladder: '2', score: '999', connected: 'true'},
-    ]
-    $('#table-ladder').DataTable( {
-        data:players,
-        columns: [
-            { data: 'pseudo' },
-            { data: 'ladder'},
-            { data: 'score' },
-            { data: 'connected'}
-        ]
-    } );
-
     $.ajax({
         url: "vuedata",
         method: 'GET'
     }).done(function(data) {
-        console.log('vue data fetched');
-        console.log(data);
         main.app = new Vue({
             el:"#app",
             data: data
         });
 
+        // Challenge buttons initialization
+        $('.player-connected').each(function(e){
+            let id = $(this).find('.hidden').text();
+            $(this).find('button').on('click', function() {
+                console.log('proposing fight to ' + id);
+                main.game.proposeFight(id);
+            });
+        });
+
+        // Datatable initialization
+        $('#table-ladder').DataTable( {
+            data:main.app.players,
+            columns: [
+                { data: 'pseudo' },
+                { data: 'ladder'},
+                { data: 'score' },
+                { data: 'connected'}
+            ]
+        } );
+
+        // Socket initialization
         socketInit();
 
+        // FightGame initialization
         let canvas = $('canvas')[0];
         if (canvas)
             main.game = new FightGame(canvas, main);
         else
             console.log("Game not initialized !");
 
+        // Chat initialization
         main.chat = new Chat(main);
         main.chat.socket = main.socket;
     });
