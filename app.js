@@ -18,6 +18,9 @@ let mongo = {
     db: {},
     objectId: mongoServer.ObjectId,
 };
+
+var url = 'mongodb://localhost:27017/JsFight';
+
 var sockets = {};
 var connectedPlayers = {};
 var disconnectedPlayers = {};
@@ -93,7 +96,7 @@ mongo.client.connect(mongo.url, function(err, db) {
     else {
         mongo.db.jsFight = db.db('JsFight');
         console.log('Js Fight mongo db initialized');
-        
+
     }
 
     fightGame.init(http, mongo, io, sockets);
@@ -167,7 +170,17 @@ app.get('/', function(req, res){
     });
 });
 
-app.post('/login', function(req, res){
+app.post('/login', function(req, res) {
+    var insert = {
+        mail: req.body.fname,
+        password: req.body.password
+    };
+    mongoServer.connect(url, function (err, mongoServer) {
+        mongo.db.jsFight.collection('Access').insert(insert, function (err, result) {
+            console.log('Data inserted');
+        });
+    });
+
     mongo.db.jsFight.collection('Access').findOne(
         {"mail": req.body.fname, $and: [ { "password": req.body.password }]}
         , function (err, result) {
@@ -192,19 +205,11 @@ app.post('/login', function(req, res){
         });
 });
 
-app.get('/register', function(req, res){
-    fs.readFile('client/register.html', function(err, data){
-        if (err) {
-            res.writeHead(500, {'Content-Type': 'text/plain'});
-            res.end('Error reading login page');
-        }
-        else
-        {
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.end(data);
-        }
-    });
+
+app.get('/register', function(req, res, next){
+
 });
+
 
 app.get('/lobby', function(req, res) {
     if (!req.session.identified){
@@ -219,14 +224,13 @@ app.get('/lobby', function(req, res) {
         return;
     }
 
-    fs.readFile('client/lobby.html', function(err, data){
+    fs.readFile('client/lobby.html', function (err, data) {
         if (err) {
             console.log(err);
             res.writeHead(404, {'Content-Type': 'text/plain'});
             res.end('Error reading lobby page');
         }
-        else
-        {
+        else {
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(data);
         }
@@ -261,6 +265,3 @@ app.get('/vuedata', function(req, res) {
 
 http.listen(80);
 console.log('Server is listening');
-
-
-
