@@ -3,6 +3,7 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/lobby.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/datatables.min.css"/>
 </head>
 <body>
 <div id="app">
@@ -29,7 +30,7 @@
 
 <div id="ladder">
     <button class="btn btn-danger" onclick="showLadder(false)">X</button>
-    <table class="col-12">
+    <table id="table-ladder" class="col-12">
         <thead>
             <th>Classement</th>
             <th>Connecté</th>
@@ -37,23 +38,6 @@
             <th>Score</th>
             <th>Action</th>
         </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>oui</td>
-                <td>Zarnes</td>
-                <td>1000</td>
-                <td>Jouer</td>
-            </tr>
-
-            <tr>
-                <td>2</td>
-                <td>non</td>
-                <td>Senraz</td>
-                <td>999</td>
-                <td>Jouer</td>
-            </tr>
-        </tbody>
     </table>
 </div>
 
@@ -68,6 +52,7 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/datatables.min.js"></script>
 
 <script src="/js/chat.js"></script>
 <script src="/fightgame.js"></script>
