@@ -43,6 +43,7 @@
 }
 
 .player-connected button {
+    margin-left: 10px;
     padding: 1px 6px;
 }
 
@@ -53,4 +54,9 @@
 
 .hidden {
     display: none;
+}
+
+#images img {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }

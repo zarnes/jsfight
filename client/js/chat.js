@@ -2,7 +2,7 @@ function Chat(main)
 {
 	chat = this;
 	this.mainContext = main;
-	this.socket;
+    this.socket;
 
 	this.initsocket= function(){
 		chat.socket.on('chat nouveau message', function (message) {

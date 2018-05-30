@@ -177,6 +177,11 @@ game.init = function(server, mongo, socketIO, sockets) {
                 feedback[tPlayer + 'State'] = 'kick';
                 feedback[tPlayer + "NextMove"] = 0.70;
             }
+            else if (action.action === 'block') {
+                let state = action.block ? 'block' : 'idle';
+                fight[tPlayer].state = state;
+                feedback[tPlayer + 'State'] = state;
+            }
             else if (action.action === 'move') {
                 let movement = 2 * action.direction;
                 //thisPlayer.x =+ movement;

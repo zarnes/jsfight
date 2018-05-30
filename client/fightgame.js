@@ -59,6 +59,13 @@ function FightGame(canvas, main) {
         this.socket.on('startFight', function(fight){ game.startFight(fight); });
 
         this.socket.on('fightUpdate', function(data) {
+            if (game.gamestate === 'lobby') {
+                if (data.fight) {
+                    console.log('deleting fight because player is in lobby');
+                    delete data.fight;
+                }
+                return;
+            }
             if (data.fight !== undefined) {
                 console.log('full updating fight');
                 game.fight = data.fight;
@@ -137,7 +144,7 @@ function FightGame(canvas, main) {
         });
     };
 
-    function initKeyPress() { // TODO change name
+    this.initKeyPress = function() {
         var pressedKeys = {};
         var keysCount = 0;
         var interval = null;
@@ -148,6 +155,7 @@ function FightGame(canvas, main) {
                 40: true,   // down arrow
                 65: true,   // a
                 90: true,   // z
+                69: true,   // e
             };
 
         $(document).keydown(function (event) {
@@ -170,6 +178,13 @@ function FightGame(canvas, main) {
                             fightId: game.fight.fightId,
                             player: (game.fight.leftPlayer.id === game.me.id ? 'left' : 'right')
                         };
+
+                        if (pressedKeys[69] && game.me.nextMove < game.tick) {
+                            game.me.state = 'block';
+                            action.action = 'block';
+                            action.block = true;
+                            game.socket.emit('fightAction', action);
+                        }
 
                         if (pressedKeys[90] && game.me.nextMove < game.tick) {
                             game.me.state = 'kick';
@@ -228,6 +243,15 @@ function FightGame(canvas, main) {
                 };
                 game.socket.emit('fightAction', action)
             }
+            else if (keyCode === 69  && game.me.state === 'block') {
+                var action = {
+                    fightId: game.fight.fightId,
+                    player: (game.fight.leftPlayer.id === game.me.id ? 'left' : 'right'),
+                    action: 'block',
+                    block: game.me.block = false
+                };
+                game.socket.emit('fightAction', action)
+            }
 
             if (pressedKeys[keyCode]) {
                 delete pressedKeys[keyCode];
@@ -240,7 +264,7 @@ function FightGame(canvas, main) {
                 interval = null;
             }
         });
-    }
+    };
 
     this.matchmaking = function() {
         console.log("lfg");
@@ -301,7 +325,7 @@ function FightGame(canvas, main) {
             this.flipped = !this.flipped;
             this.ctx.scale(-1, 1);
         }*/
-        //if (reverse) this.ctx.scale(-1, 1);
+        //if (reverse) this.ctx.scale(-1, 1); // TODO debug
         this.ctx.drawImage(
             picture,
             x * this.pixelX,
@@ -325,6 +349,7 @@ function FightGame(canvas, main) {
         if (player.state === 'punch') pic = game.images.punch;
         else if (player.state === 'hurt') pic = game.images.hurt;
         else if (player.state === 'kick') pic = game.images.kick;
+        else if (player.state === 'block') pic = game.images.blocking;
 
         var widthExtra = 0;
         if (player.state === 'punch') widthExtra = 60;
@@ -344,105 +369,8 @@ function FightGame(canvas, main) {
             player.state = 'idle';
     };
 
-    this.writePlayers = function() {
-        let left = game.fight.leftPlayer;
-        let lHeight = left.crouched ? 100 : 200;
-        this.writeLines([
-            {x: left.x - 30, y: left.y},
-            {x: left.x + 30, y: left.y},
-            {x: left.x + 30, y: left.y - lHeight},
-            {x: left.x - 30, y: left.y - lHeight},
-            {x: left.x - 30, y: left.y}
-        ], 'fill', '#00bd04');
-
-        var pic = game.images.fighting;
-        if (left.state === 'punch') pic = game.images.punch;
-        else if(left.state === 'hurt') pic = game.images.hurt;
-        let widthExtra = (left.state === 'punch' ? 55 : 0);
-        this.writePicture(pic, left.x - 30, left.y - lHeight, 60 + widthExtra, lHeight, true);
-
-        /*if (left.nextMove - game.tick > 0) {
-            this.writeText(
-                left.nextMove - game.tick,
-                left.x,
-                left.y - 220,
-            );
-        }
-        else if (left.state !== 'hurt' && left.y === 600)
-            left.state = 'idle';*/
-
-        /*if ((left.y === 600 || left.state !== 'hurt') && left.nextMove - game.tick > 0)
-            left.state = 'idle';
-        else
-            this.writeText(
-                left.nextMove - game.tick,
-                left.x,
-                left.y - 220,
-            );*/
-
-        if ((left.y !== 600 && left.state === 'hurt') || left.nextMove - game.tick > 0) // TODO better this
-            this.writeText(
-                left.nextMove - game.tick,
-                left.x,
-                left.y - 220,
-            );
-        else
-            left.state = 'idle';
-
-
-        let right = game.fight.rightPlayer;
-        let rHeight = right.crouched ? 100 : 200;
-        this.writeLines([
-            {x: right.x - 30, y: right.y},
-            {x: right.x + 30, y: right.y},
-            {x: right.x + 30, y: right.y - rHeight},
-            {x: right.x - 30, y: right.y - rHeight},
-            {x: right.x - 30, y: right.y}
-        ], 'fill', '#bd1300');
-
-        pic = game.images.fighting;
-        if (right.state === 'punch') pic = game.images.punch;
-        else if(right.state === 'hurt') pic = game.images.hurt;
-        widthExtra = (right.state === 'punch' ? 60 : 0);
-        this.writePicture(pic, right.x - 30, right.y - rHeight, 60 + widthExtra, rHeight, true);
-
-        if (right.nextMove - game.tick > 0) {
-            this.writeText(
-                right.nextMove - game.tick,
-                right.x,
-                right.y - 220,
-            );
-        }
-        else {
-            if (left.y >= 600) {
-                left.y = 600;
-                left.velocity = {x: 0, y: 0};
-            }
-            else {
-                let distance = Math.abs(game.me.x + left.velocity.x - game.other.x);
-                if (left.x + left.velocity.x > 1000 || left.x + left.velocity.x < -1000 || distance < 70) {
-                    left.velocity.x = 0;
-                }
-                else
-                    left.x += left.velocity.x;
-
-                left.velocity.y -= (game.frameTime / 1000) * 5.5;
-                left.y -= left.velocity.y;
-                game.socket.emit('fightAction', {
-                    action: 'gravity',
-                    fightId: game.fight.fightId,
-                    player: (game.fight.leftPlayer.id === game.me.id ? 'left' : 'right'),
-                    velocity: left.velocity
-                });
-            }
-            right.state = 'idle';
-        }
-
-    };
-
     this.calculateGravity = function(player) {
-        //let left = game.fight.leftPlayer;
-        //let left = game.me;
+        // TODO change left by me
         let left = player;
 
         let distance = Math.abs(game.me.x + left.velocity.x - game.other.x);
@@ -512,11 +440,14 @@ function FightGame(canvas, main) {
 
     this.writeMenu = function()
     {
-        let fontSize = 34 * this.pixelX;
-        this.writeText('Combat Rapide', 500, 310, 34);
-        /*this.ctx.font = fontSize + "px Arial";
-        this.ctx.fillText("Combat rapide", 390 * this.pixelX, 310 * this.pixelY);*/
+        this.ctx.beginPath();
+        this.ctx.moveTo(10, 10);
+        this.ctx.lineTo(500, 500);
+        this.ctx.lineTo(200, 600);
+        this.ctx.stroke();
+        this.ctx.closePath();
 
+        this.writeText('Combat Rapide', 500, 310, 34);
         this.writeLines([
             {x: 350, y: 250},
             {x: 650, y: 250},
@@ -524,15 +455,6 @@ function FightGame(canvas, main) {
             {x: 350, y: 350},
             {x: 350, y: 250}
         ]);
-
-        /*this.ctx.beginPath();
-        this.ctx.moveTo(350 * this.pixelX, 250 * this.pixelY);
-        this.ctx.lineTo(650 * this.pixelX, 250 * this.pixelY);
-        this.ctx.lineTo(650 * this.pixelX, 350 * this.pixelY);
-        this.ctx.lineTo(350 * this.pixelX, 350 * this.pixelY);
-        this.ctx.lineTo(350 * this.pixelX, 250 * this.pixelY);
-        this.ctx.stroke();
-        this.ctx.closePath();*/
     };
 
     this.writeLFG = function()
@@ -615,13 +537,10 @@ function FightGame(canvas, main) {
     this.nextFightupdate = 0;
 
     this.socket = main.socket;
-    /*this.socket.on('connection', function(err){
-        this.socketInit();
-    });*/
-    initKeyPress();
+    this.initKeyPress();
 
     this.resizeCanvas();
-    setInterval(function(){ game.resizeCanvas(); }, 300);
+    //setInterval(function(){ game.resizeCanvas(); }, 300);
     setInterval(function(){ game.canvasLoop(); }, this.frameTime);
     setInterval(function(){ ++game.secondsSinceStart; }, 1000);
     canvas.addEventListener('click', function(event){ game.clickHandle(event); });

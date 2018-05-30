@@ -1,7 +1,3 @@
-$(document).ready(function(){
-
-})
-
 function required()
 {
     var fname = document.forms["form1"]["fname"].value;

@@ -21,13 +21,14 @@
                 <button type="submit" class="btn btn-primary">envoyer</button>
             </form>
         </div>
-        <div class="col-12 col-md-6 col-xl-3 bordered">
+        <div id="connected-players" class="col-12 col-md-6 col-xl-3 bordered">
             <button class="btn btn-primary" onclick="showLadder(true)">Voir le classement</button>
             <div class="player-connected" v-for="player in players">
+                <span v-if="player.connected == true">connected</span>
                 <span class="player-name">{{player.pseudo}}</span>
                 <span class="player-score">({{player.score}}</span>
                 <span class="player-ladder">{{player.ladder}})</span>
-                <button class="btn btn-danger">Défier</button>
+                <button v-if="me._id != player._id" class="btn btn-danger">Défier</button>
                 <span class="hidden">{{player._id}}</span>
             </div>
         </div>
@@ -39,10 +40,12 @@
     <table id="table-ladder" class="col-12">
         <thead>
             <th>Classement</th>
-            <th>Connecté</th>
-            <th>Pseudo</th>
+            <th>Joueur</th>
             <th>Score</th>
-            <!--<th>Action</th>-->
+            <th>Victoires</th>
+            <th>Defaites</th>
+            <th>Temps de jeu</th>
+            <th>Connecté</th>
         </thead>
     </table>
 </div>
@@ -52,6 +55,7 @@
     <img src="img/punch.png" title="punch">
     <img src="img/kick.png" title="kick">
     <img src="img/hurt.png" title="hurt">
+    <img src="img/blocking.png" title="blocking">
 </div>
 <!-- development version, includes helpful console warnings -->
 <script src="js/vue.js"></script>
