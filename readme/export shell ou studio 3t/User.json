@@ -1,0 +1,24 @@
+{ 
+    "_id" : ObjectId("5b02dcc48898a535ec9705aa"), 
+    "pseudo" : "Zarnes", 
+    "score" : NumberInt(1033), 
+    "wins" : NumberInt(5), 
+    "loses" : NumberInt(5), 
+    "playtime" : NumberInt(102)
+}
+{ 
+    "_id" : ObjectId("5b02dcd58898a535ec9705ab"), 
+    "pseudo" : "Senraz", 
+    "score" : NumberInt(875), 
+    "wins" : NumberInt(3), 
+    "loses" : NumberInt(5), 
+    "playtime" : NumberInt(81)
+}
+{ 
+    "_id" : ObjectId("5b0f004d6088b2390c0fbdad"), 
+    "pseudo" : "zarnes4", 
+    "score" : NumberInt(1056), 
+    "wins" : NumberInt(3), 
+    "loses" : NumberInt(1), 
+    "playtime" : NumberInt(61)
+}

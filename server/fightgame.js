@@ -6,8 +6,10 @@ game.currentfights = [];
 game.sockets = {};
 game.frameTime;
 
+// Custom function for score calculation
 game.cLog = function(n, b) { return Math.log(n)/Math.log(b)};
 
+// Finish a fight, change scores and notify players
 game.finishFight = function(fight) {
     var winner;
     var loser;
@@ -77,6 +79,7 @@ game.finishFight = function(fight) {
     delete game.currentfights[fight.fightId];
 };
 
+// Called once, initialize mongo connection and socket listeners
 game.init = function(server, mongo, socketIO, sockets) {
     this.mongo = mongo;
     this.sockets = sockets;
@@ -99,6 +102,11 @@ game.init = function(server, mongo, socketIO, sockets) {
             });
         });
 
+        socket.on('fightRefuseChallenge', function(opponent){
+            game.sockets[opponent].emit('fightRefuseChallenge', '');
+        });
+
+        // Core of the game logic server-side, check user actions and notify them
         socket.on('fightAction', function(action) {
             var fight = game.currentfights[action.fightId];
             if (!fight) {
@@ -126,16 +134,21 @@ game.init = function(server, mongo, socketIO, sockets) {
             var feedback = {};
 
             if (action.action === 'attack') {
-                let power = 1000;
+                let power = 45;
                 var xValid;
                 if (action.player === 'left')
                     xValid = fight[tPlayer].x + 100 > fight[oPlayer].x - 30;
                 else
                     xValid = fight[tPlayer].x - 100 < fight[oPlayer].x + 30;
 
+                var blockValid = fight[oPlayer].state === 'block';
+                if (fight[tPlayer].crouched && !fight[oPlayer].crouched)
+                    blockValid = false;
+
                 let tHeight = fight[tPlayer].crouched ? 100 : 200;
                 let oHeight = fight[oPlayer].crouched ? 100 : 200;
                 if (
+                    !blockValid &&
                     xValid &&
                     fight[tPlayer].y + 30 - tHeight > fight[oPlayer].y - oHeight &&
                     fight[tPlayer].y + 70 - tHeight < fight[oPlayer].y
@@ -152,16 +165,21 @@ game.init = function(server, mongo, socketIO, sockets) {
                 feedback[tPlayer + "NextMove"] = 0.35;
             }
             else if (action.action === 'kick') {
-                let power = 50;
+                let power = 100;
                 var xValid;
                 if (action.player === 'left')
                     xValid = fight[tPlayer].x + 150 > fight[oPlayer].x - 30;
                 else
                     xValid = fight[tPlayer].x - 150 < fight[oPlayer].x + 30;
 
+                var blockValid = fight[oPlayer].state === 'block';
+                if (fight[tPlayer].crouched && !fight[oPlayer].crouched)
+                    blockValid = false;
+
                 let tHeight = fight[tPlayer].crouched ? 100 : 200;
                 let oHeight = fight[oPlayer].crouched ? 100 : 200;
                 if (
+                    !blockValid &&
                     xValid &&
                     fight[tPlayer].y + 80 - tHeight > fight[oPlayer].y - oHeight &&
                     fight[tPlayer].y + 90 - tHeight < fight[oPlayer].y
@@ -220,6 +238,7 @@ game.init = function(server, mongo, socketIO, sockets) {
             }
         });
 
+        // Send to the players the complete state of a fight
         socket.on('fightAskUpdate', function(fightId) {
             if (!socket.player.identified) {
                 console.log('An unidentified socket want to update a fight');
@@ -236,6 +255,7 @@ game.init = function(server, mongo, socketIO, sockets) {
                     + game.currentfights[fightId].fightId + ' ('
                     + game.currentfights[fightId].leftPlayer.pseudo + ' vs '
                     + game.currentfights[fightId].rightPlayer.pseudo + ')');
+                socket.emit('fightFinish', undefined);
             }
             else
             {
@@ -248,10 +268,11 @@ game.init = function(server, mongo, socketIO, sockets) {
 
         socket.on('sendFrametime', function(frametime){
             game.frameTime = frametime;
-        })
+        });
     });
 };
 
+// Remove old fight challenges
 game.checkFightTimeout = function() {
     var i = 0;
     let now = Date.now();
@@ -268,10 +289,13 @@ game.checkFightTimeout = function() {
     }
 };
 
+// Called when a player want to challenge another, by directly challenging him or by matchmaking
 game.proposeNewFight = function(asker, target) {
     if (asker.id === target.id)
         return false;
+
     console.log(asker.pseudo + ' ask ' + target.pseudo + ' to fight');
+
     for (var i = 0; i < this.proposedFights.length; ++i) {
 
         if(this.proposedFights[i].asker.id === asker.id) {
@@ -279,15 +303,29 @@ game.proposeNewFight = function(asker, target) {
             this.proposeNewFight(asker, target);
             return false;
         }
+        // If both players want to fight each other
         else if (asker.id === this.proposedFights[i].target.id
             && target.id === this.proposedFights[i].asker.id
             && Date.now() < this.proposedFights[i].timeStamp + (1000 * 60)) {
+
+            game.currentfights.forEach(function(fight){
+                if (
+                    fight.leftPlayer.id === asker.id ||
+                    fight.leftPlayer.id === target.id ||
+                    fight.rightPlayer.id === asker.id ||
+                    fight.rightPlayer.id === target.id
+                ) {
+                    console.log('A player tried to join a fight while fighting');
+                    return false;
+                }
+            });
 
             console.log('Fight between ' + asker.pseudo + ' and ' + target.pseudo + ' begin');
 
             this.sockets[asker.id].emit('message', 'starting fight with ' + target.pseudo);
             this.sockets[target.id].emit('message', 'starting fight with ' + asker.pseudo);
 
+            // Initialize a fight
             var fight = {
                 leftPlayer: this.proposedFights[i].asker,
                 rightPlayer: this.proposedFights[i].target,
@@ -317,12 +355,11 @@ game.proposeNewFight = function(asker, target) {
             this.sockets[target.id].emit('startFight', fight);
 
             this.proposedFights.splice(i, 1);
-            //delete this.proposedFights[i];
-            //return this.proposedFights[i];
             return true;
         }
     }
 
+    // If the target player didn't register to fight, he's notified
     this.proposedFights.push({
         asker: asker,
         target: target,
@@ -331,6 +368,8 @@ game.proposeNewFight = function(asker, target) {
         targetToken: 111,
         timeStamp: Date.now()
     });
+
+    game.sockets[target.id].emit('fightReceiveChallenge', asker);
 
     return true;
 };

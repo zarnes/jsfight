@@ -1,0 +1,3 @@
+{ "_id" : { "$oid" : "5b02dcc48898a535ec9705aa" }, "pseudo" : "Zarnes", "score" : 1033, "wins" : 5, "loses" : 5, "playtime" : 102 }
+{ "_id" : { "$oid" : "5b02dcd58898a535ec9705ab" }, "pseudo" : "Senraz", "score" : 875, "wins" : 3, "loses" : 5, "playtime" : 81 }
+{ "_id" : { "$oid" : "5b0f004d6088b2390c0fbdad" }, "pseudo" : "zarnes4", "score" : 1056, "wins" : 3, "loses" : 1, "playtime" : 61 }

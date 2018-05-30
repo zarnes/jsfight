@@ -63,8 +63,6 @@ $(document).ready(function(){
             url: 'vuedata',
             method: 'GET'
         }).done(function(data) {
-            console.log('fetched players');
-
             if (main.app)
                 main.app.players = data.players;
             else
@@ -81,9 +79,12 @@ $(document).ready(function(){
                     var html = '<div class="player-connected">' +
                         '<span class="player-name">' + player.pseudo +'</span>' +
                         '<span class="player-score"> (' + player.score + ' </span>' +
-                        '<span class="player-ladder">' + player.ladder + ')</span>' +
-                        '<button class="btn btn-danger">Défier</button>' +
-                        '<span class="hidden">' + player._id + '</span></div>'
+                        '<span class="player-ladder">' + player.ladder + ')</span>';
+                    if (player._id !== main.app.me._id) {
+                        html += '<button class="btn btn-danger">Défier</button>' +
+                        '<span class="hidden">' + player._id + '</span>';
+                    }
+                    html += '</div>';
 
                     $('#connected-players').append(html);
                 }

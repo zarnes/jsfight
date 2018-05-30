@@ -1,16 +1,15 @@
+// main modules, core of web server
 let app = require('express')();
 let session = require('express-session');
 let http = require('http').Server(app);
 
+// communications modules
 let fs = require('fs');
 let bodyParser = require('body-parser');
 let io = require('socket.io').listen(http);
 
+// mongo db module importing and settings
 let mongoServer = require('mongodb');
-
-let fightGame = require("./server/fightgame").data;
-let chat = require("./server/chat").data;
-
 let mongo = {
     server: mongoServer,
     client: mongoServer.MongoClient,
@@ -19,19 +18,21 @@ let mongo = {
     objectId: mongoServer.ObjectId,
 };
 
-var url = 'mongodb://localhost:27017/JsFight';
+// custom modules
+let fightGame = require("./server/fightgame").data;
+let chat = require("./server/chat").data;
 
+// server ip
+var url = 'localhost';
+if (process.argv[2])
+    url = process.argv[2];
+
+// global dictionaries to track players
 var sockets = {};
 var connectedPlayers = {};
 var disconnectedPlayers = {};
 
-/*
-*   TODO
-*   mirorring des anim
-*   block dans le fight
-*   matchmaking
- */
-
+// express middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -54,6 +55,7 @@ io.sockets.on('connection', function(socket) {
         console.log(sender + ' say : ' + message);
     });
 
+    // Once a client is connected, he need to send his identity before doing any action
     socket.on('fightGiveIdentity', function(player) {
         if (!connectedPlayers[player._id]) {
             console.log('Disconnecting ' + player.pseudo + '\'s socket because he\'s not connected');
@@ -72,6 +74,7 @@ io.sockets.on('connection', function(socket) {
         });
     });
 
+    // Useful to notify players
     socket.on('disconnect', function(){
         if (socket.player.identified) {
             console.log(socket.player.identity.pseudoClass + ' disconnected.');
@@ -88,6 +91,7 @@ io.sockets.on('connection', function(socket) {
     })
 });
 
+// Initialize mongo connection
 mongo.client.connect(mongo.url, function(err, db) {
     if (err) {
         mongo.db.jsFight = false;
@@ -103,6 +107,7 @@ mongo.client.connect(mongo.url, function(err, db) {
     chat.init(io,sockets);
 });
 
+// To get any js file
 app.get('*.js', function(req, res) {
     var url = req.url;
 
@@ -124,6 +129,7 @@ app.get('*.js', function(req, res) {
     })
 });
 
+// To get any css file
 app.get('*.css', function(req, res) {
     fs.readFile("./client/" + req.url.toString(), function(err, data) {
         if (err)
@@ -140,7 +146,8 @@ app.get('*.css', function(req, res) {
     });
 });
 
-app.get('*.png', function(req, res) {
+// To get any picture
+app.get(['*.png', '*.ico'], function(req, res) {
     fs.readFile("./client/" + req.url.toString(), function(err, data) {
         if (err)
         {
@@ -156,6 +163,7 @@ app.get('*.png', function(req, res) {
     });
 });
 
+// Login page
 app.get('/', function(req, res){
     fs.readFile('client/login.html', function(err, data){
         if (err) {
@@ -170,6 +178,7 @@ app.get('/', function(req, res){
     });
 });
 
+// Login check
 app.post('/login', function(req, res) {
     mongo.db.jsFight.collection('Access').findOne(
         {"mail": req.body.fname, $and: [ { "password": req.body.password }]}
@@ -195,7 +204,7 @@ app.post('/login', function(req, res) {
         });
 });
 
-
+// Registering new members
 app.post('/register', function(req, res, next){
     var pseudo = req.body.username;
 
@@ -229,7 +238,7 @@ app.post('/register', function(req, res, next){
                     })
                 }
                 else
-                    res.redirect('/register'); // TODO check si pas de boucle infinie
+                    res.redirect('/register');
             })
         }
         else
@@ -237,6 +246,7 @@ app.post('/register', function(req, res, next){
     });
 });
 
+// Register page
 app.get('/register', function(req, res){
     fs.readFile('client/register.html', function(err, data){
         if (err) {
@@ -251,7 +261,7 @@ app.get('/register', function(req, res){
     });
 });
 
-
+// Main page
 app.get('/lobby', function(req, res) {
     if (!req.session.identified){
         res.redirect('/');
@@ -278,10 +288,11 @@ app.get('/lobby', function(req, res) {
     })
 });
 
+// Return json of all players, useful for ladder and connected players list
 app.get('/vuedata', function(req, res) {
     var appData = {
         me: req.session.player,
-        serverIp: 'localhost'
+        serverIp: url
     };
 
     mongo.db.jsFight.collection('User').find({}).sort({
