@@ -1,5 +1,5 @@
 <head>
-    <title>JS Fight - Login</title>
+    <title>JS Fight</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/lobby.css" rel="stylesheet">
@@ -12,6 +12,11 @@
         </div>
         <div class="col-12 col-md-6 col-xl-3 bordered">
             <p>Game chat</p>
+            <div class="conversation"></div>
+            <form id="form">
+                <input type="text" name="message">
+                <button type="submit" class="btn btn-primary">envoyer</button>
+            </form>
         </div>
         <div class="col-12 col-md-6 col-xl-3 bordered">
             <button class="btn btn-primary" onclick="showLadder(true)">Voir le classement</button>
@@ -21,46 +26,51 @@
         </div>
     </div>
 </div>
-    <div id="ladder">
-        <button class="btn btn-danger" onclick="showLadder(false)">X</button>
-        <table class="col-12">
-            <thead>
-                <th>Classement</th>
-                <th>Connecté</th>
-                <th>Pseudo</th>
-                <th>Score</th>
-                <th>Action</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>oui</td>
-                    <td>Zarnes</td>
-                    <td>1000</td>
-                    <td>Jouer</td>
-                </tr>
 
-                <tr>
-                    <td>2</td>
-                    <td>non</td>
-                    <td>Senraz</td>
-                    <td>999</td>
-                    <td>Jouer</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div id="ladder">
+    <button class="btn btn-danger" onclick="showLadder(false)">X</button>
+    <table class="col-12">
+        <thead>
+            <th>Classement</th>
+            <th>Connecté</th>
+            <th>Pseudo</th>
+            <th>Score</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>oui</td>
+                <td>Zarnes</td>
+                <td>1000</td>
+                <td>Jouer</td>
+            </tr>
 
+            <tr>
+                <td>2</td>
+                <td>non</td>
+                <td>Senraz</td>
+                <td>999</td>
+                <td>Jouer</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
+<div id="images">
+    <img src="img/fighting.png" title="fighting">
+    <img src="img/punch.png" title="punch">
+    <img src="img/kick.png" title="kick">
+    <img src="img/hurt.png" title="hurt">
+</div>
 <!-- development version, includes helpful console warnings -->
 <script src="js/vue.js"></script>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/jquery-3.3.1.min.js"></script>
 
+<script src="/js/chat.js"></script>
 <script src="/fightgame.js"></script>
-<script src="/fight.js"></script>
-
 <script src="/lobby.js"></script>
 
 </body>
